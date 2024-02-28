@@ -33,7 +33,6 @@ function soloNumeros(e) {
   input.value = value.replace(regex, ""); // Reemplaza caracteres no numéricos por ""
 }
 
-
 // Function para Validar Inputs  text/ email
 function validarCampos(campos) {
   let validos = true; 
@@ -113,6 +112,33 @@ function addEventListenerToInputs(campos){
     });
   });
 }
+
+// Para accesibilidad simulo clicks, 
+const checkboxWrapper = document.querySelector(".checkbox-wsp");
+const containerRadio = document.querySelectorAll(".container-radio")
+const containerCheckbox = document.querySelector(".container-checkbox-q")
+
+ checkboxWrapper.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    // Simular un clic en el checkbox
+    const checkbox = checkboxWrapper.querySelector("input[type='checkbox']");
+    checkbox.click();
+  }
+});
+
+containerRadio.forEach(radio => {
+  radio.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      // Simular un clic en el checkbox     
+      const radioInput = radio.querySelector("input[type='radio']");
+      radioInput.click();
+    }
+  });
+});
+
+ 
 
 /* After Loading----------------------------------------- */
 document.addEventListener("DOMContentLoaded", function () {
@@ -282,6 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   submitS3Button.addEventListener("submit", (e) => {
+    console.log("submtio")
     e.preventDefault();
     step3Window.classList.add("swapping");
 
