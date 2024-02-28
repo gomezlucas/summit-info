@@ -393,7 +393,7 @@ padding-top: 62px;
    outline: none;
 }
 
-.form_input:focus, .checkbox-wsp:focus, .container-radio:focus , .container-checkbox-q:focus   {
+.form_input:focus, .checkbox-wsp:focus, .container-radio:focus , .container-checkbox-q:focus, .form-element:focus, .primary_button:focus, .select:focus, .opcion:focus  {
    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
 }
 
@@ -522,7 +522,8 @@ padding-top: 62px;
    align-items: center;
    justify-content: space-around;
    cursor: pointer;
-   border: 1px solid var(--light-blue-highlight)
+   border: 1px solid var(--light-blue-highlight);
+   outline: none
 }
 
 .primary_button:hover {
@@ -555,6 +556,7 @@ padding-top: 62px;
    position: relative;
    z-index: 200;
    border: 2px solid #E0E0E0;
+   outline: none;
 }
 
 .select.just_data {
@@ -604,6 +606,7 @@ padding-top: 62px;
 
 .opcion {
    text-decoration: none;
+   outline: none;
 }
 
 .opciones .contenido-opcion {
@@ -894,6 +897,7 @@ padding-top: 62px;
    width: 100%;
    max-width: 150px;
    height: auto;
+   outline: none;
 }
 
 .form-element input {

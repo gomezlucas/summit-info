@@ -73,7 +73,7 @@
 
     <section class="form_section">
       <!--STEP-1------------------------------------------------------------------------------------->
-      <div class="step-1"  >
+      <div class="step-1"  style="display: none;">
         <div class="container_questions">
           <form id="form_step-1">
             <div class="form_title_wrapper">
@@ -230,7 +230,7 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select" id="select">
+                    <div class="select" id="select" tabindex="0">
                       <div class="contenido-select">
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
@@ -238,7 +238,7 @@
                     </div>
 
                     <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
+                      <a href="#" class="opcion default" tabindex="0">
                         <div class="contenido-opcion">
                           <img src="./assets/icons/argentina.png" alt="" />
                           <div class="textos">
@@ -246,7 +246,7 @@
                           </div>
                         </div>
                       </a>
-                      <a href="#" class="opcion">
+                      <a href="#" class="opcion" tabindex="0">
                         <div class="contenido-opcion">
                           <img src="./assets/icons/mexico.png" alt="" />
                           <div class="textos">
@@ -425,7 +425,7 @@
       </div>
       <!--STEP-1------------------------------------------------------------------------------------->
       <!--STEP-2------------------------------------------------------------------------------------->
-      <div class="step-2" >
+      <div class="step-2" style="display: block;" >
         <div class="container_questions">
           <form action="" id="form_step-2">
             <div class="form_title_wrapper">
@@ -596,7 +596,7 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select" id="select">
+                    <div class="select" id="select" tabindex="0">
                       <div class="contenido-select">
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
@@ -974,7 +974,7 @@
       <!--STEP-2------------------------------------------------------------------------------------->
       <!--STEP-3------------------------------------------------------------------------------------->
       <div class="step-3" >
-        <div class="container_questions">
+        <div class="container_questions" >
           <form id="form_step-3" id="form_step-3">
             <div class="form_title_wrapper">
               <p class="form_title">Intereses</p>
@@ -997,13 +997,14 @@
                     name="firstTime"
                     checked="checked"
                     value="no"
+                    tabindex="-1"
                   />
                   <span class="checkmark"></span>
                 </label>
                 <label class="container-radio"
                 tabindex="0"
                   >Sí, he asistido antes
-                  <input type="radio" name="firstTime" value="si" />
+                  <input type="radio" name="firstTime" value="si" tabindex="-1" />
                   <span class="checkmark"></span>
                 </label>
               </div>
@@ -1019,19 +1020,19 @@
               <div class="form_checkbox_buttons_container">
                 <label class="container-checkbox-q" tabindex="0"
                   >Proveeduría
-                  <input type="checkbox" />
-                  <span class="checkmark-q"></span>
+                  <input type="checkbox" name="proveduria " tabindex="-1"/>
+                  <span class="checkmark-q" tabindex="-1"></span>
                 </label>
 
                 <label class="container-checkbox-q" tabindex="0"
                   >Capacitación
-                  <input type="checkbox" />
-                  <span class="checkmark-q"></span>
+                  <input type="checkbox" name="proveduria" tabindex="-1"/>
+                  <span class="checkmark-q" tabindex="-1"></span>
                 </label>
                 <label class="container-checkbox-q" tabindex="0"
                   >Networking entre colegas del sector
-                  <input type="checkbox" />
-                  <span class="checkmark-q"></span>
+                  <input type="checkbox" tabindex="-1"/>
+                  <span class="checkmark-q" tabindex="-1"></span>
                 </label>
               </div>
               <!--Question 3 -->
@@ -1047,37 +1048,37 @@
                 <div class="form_checkbox_column">
                   <label class="container-checkbox-q" tabindex="0"
                     >Operaciones logísticas
-                    <input type="checkbox" />
-                    <span class="checkmark-q"></span>
+                    <input type="checkbox"  tabindex="-1"/>
+                    <span class="checkmark-q" tabindex="-1"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Comercio exterior
-                    <input type="checkbox" />
-                    <span class="checkmark-q"></span>
+                    <input type="checkbox" tabindex="-1"/>
+                    <span class="checkmark-q" tabindex="-1"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Infraestructura y equipamiento para centros de distribución
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Movimiento y control de materiales
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Embalaje y suministros para protección de carga
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Tecnologías (Software y Hardware)
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Camiones y utilitarios
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                 </div>
@@ -1085,37 +1086,37 @@
                 <div class="form_checkbox_column">
                   <label class="container-checkbox-q" tabindex="0"
                     >Transporte
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Seguridad de carga y personas
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Promotores inmobiliarios
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Asesoramiento
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Capacitación
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Asociaciones, cámaras y entitidades empresariales
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                   </label>
                   <label id="checkbox_otro" class="container-checkbox-q" tabindex="0"
                     >Otro (¿cuál?)
-                    <input type="checkbox" />
+                    <input type="checkbox" tabindex="-1"/>
                     <span class="checkmark-q"></span>
                     <input
                       id="input_otro_hidden"
@@ -1133,7 +1134,7 @@
                 </p>
               </div>
               <div class="form_checkboxCard_buttons_container">
-                <div class="form-element">
+                <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
                     name="logistica"
@@ -1161,7 +1162,7 @@
                     </div>
                   </label>
                 </div>
-                <div class="form-element">
+                <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
                     name="gestion"
@@ -1189,7 +1190,7 @@
                     </div>
                   </label>
                 </div>
-                <div class="form-element">
+                <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
                     name="transporte"
@@ -1217,7 +1218,7 @@
                     </div>
                   </label>
                 </div>
-                <div class="form-element">
+                <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
                     name="logistica-int"
@@ -1245,7 +1246,7 @@
                     </div>
                   </label>
                 </div>
-                <div class="form-element">
+                <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
                     name="intralogistica"

@@ -98,6 +98,7 @@ function showValidationResultInput(campo, valid) {
 function addEventListenerToInputs(campos){
   campos.forEach((campo) => {
     campo.addEventListener("keyup", (e) => {
+      console.log("entro", campo)
       if (campo.value == "") {
         showValidationResultInput(campo, false);
       } else {
@@ -116,7 +117,8 @@ function addEventListenerToInputs(campos){
 // Para accesibilidad simulo clicks, 
 const checkboxWrapper = document.querySelector(".checkbox-wsp");
 const containerRadio = document.querySelectorAll(".container-radio")
-const containerCheckbox = document.querySelector(".container-checkbox-q")
+const containerCheckbox = document.querySelectorAll(".container-checkbox-q")
+const subscribeElements = document.querySelectorAll(".form-element")
 
  checkboxWrapper.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -137,8 +139,28 @@ containerRadio.forEach(radio => {
     }
   });
 });
+containerCheckbox.forEach(label => {
+  label.addEventListener("keydown", (event) => {
+    console.log(label)
+    if (event.key === "Enter") {
+      event.preventDefault();
+      //const radioInput = label.querySelector("input[type='checkbox']");
+      label.click();
+    }
+  });
+});
 
- 
+subscribeElements.forEach(label => {
+  label.addEventListener("keydown", (event) => {
+     if (event.key === "Enter") {
+      event.preventDefault();
+       const radioInput = label.querySelector("input[type='checkbox']");
+      radioInput.click();
+    }
+  });
+});
+
+
 
 /* After Loading----------------------------------------- */
 document.addEventListener("DOMContentLoaded", function () {
