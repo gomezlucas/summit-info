@@ -114,6 +114,28 @@ function addEventListenerToInputs(campos){
   });
 }
 
+// Función para agregar EventListener a Selects 
+function addEventListenerToSelectJustData(campos){
+  
+  campos.forEach((campo) => {
+    
+    campo.addEventListener("keyup", (e) => {
+      const inputSelect = campo.parentNode.querySelector(".inputSelect")
+      const labelSelect = inputSelect.parentNode.parentNode.querySelector("label")
+      console.log("entro", campo, labelSelect)
+      
+      if (inputSelect.value == "") {
+        campo.classList.add("error");
+        labelSelect.classList.add("error")
+
+      } else {
+        campo.classList.remove("error");        
+        labelSelect.classList.remove("error")
+      }
+    });
+  });
+}
+
 // Para accesibilidad simulo clicks, 
 const checkboxWrapper = document.querySelector(".checkbox-wsp");
 const containerRadio = document.querySelectorAll(".container-radio")
@@ -247,6 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const step3Window = document.querySelector(".step-3");
   const step4Window = document.querySelector(".step-4");
   const camposSteps = document.querySelectorAll(".form_input.required");
+  const camposSelect = document.querySelectorAll(".select")
   const selectInputStep1 = document.querySelectorAll(".step-1 .select");
  
   /* Time Line Wrapper Car */
@@ -354,6 +377,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Handle Input Listener */
   addEventListenerToInputs(camposSteps)
+  addEventListenerToSelectJustData(camposSelect)
+
   
 
   /* Submision Formulario step 3*/
