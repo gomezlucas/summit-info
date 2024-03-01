@@ -1,11 +1,13 @@
+const BASEURL = "https://stagingapi.thelogisticsworld.com/v1/events";
+
 const emailNode = `<div class="form-field emails">
-<label class="form_label" for="email-invite">Email</label>
+<label class="form_label" for="guests">Email</label>
 <div class="form_input_wrapper">
   <input
     class="form_input email_invite required new_email"
     type="email"
-    id="email-invite"
-    name="email-invite"
+    id="guests"
+    name="guests"
     placeholder="invitado@correo.com"
    />
   <img
@@ -35,19 +37,18 @@ function soloNumeros(e) {
 
 // Function para Validar Inputs  text/ email
 function validarCampos(campos) {
-  let validos = true; 
+  let validos = true;
 
   // Recorrer cada campo
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
 
-    // Si el valor está vacío, mostrar un mensaje de error y cambiar la bandera
     if (valor === "") {
       showValidationResultInput(campo);
       validos = false;
     } else {
-      campo.classList.remove("error"); 
+      campo.classList.remove("error");
     }
   }
 
@@ -60,10 +61,10 @@ function validarCamposSelect(campos) {
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
-     const parentNode = campo.parentNode.parentNode;
+    const parentNode = campo.parentNode.parentNode;
     const select = parentNode.querySelector(".select");
     const label = parentNode.querySelector(".form_label");
-     if (valor == "") {
+    if (valor == "") {
       select.classList.add("error");
       label.classList.add("error");
       validos = false;
@@ -72,8 +73,9 @@ function validarCamposSelect(campos) {
       label.classList.remove("error");
     }
   }
-  return validos
+  return validos;
 }
+
 // Función para mostrar el resultado de la validación de los inputs type text/email
 function showValidationResultInput(campo, valid) {
   const parentNode = campo.parentNode;
@@ -94,11 +96,145 @@ function showValidationResultInput(campo, valid) {
   }
 }
 
-// Función para agregar EventListener a inputs 
-function addEventListenerToInputs(campos){
+// Función para obtener parametros de la URL
+function getHashParams() {
+  const url = window.location.href;
+
+  const queryString = new URL(url).searchParams;
+
+  const utmParams = {};
+
+  for (const [key, value] of queryString.entries()) {
+    utmParams[key] = value;
+  }
+
+  return utmParams;
+}
+
+// Función para hacer el fetch la Data
+async function fetchAndgetUser(url, hash) {
+  try {
+    const response = await fetch(`${url}/register/${hash}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    if (responseData) {
+      const user = responseData.user;
+      return user;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// Function para obtener código país
+async function getCountries(url) {
+  try {
+    const response = await fetch(`${url}/internationalPrefixes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    if (responseData) {
+      const countries = responseData.internationalPrefixes;
+      return countries;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+//Function para cargar Código País
+function loadCountryCode(countries) {
+  const dropdownCountries = document.querySelectorAll(".countries_code");
+
+  dropdownCountries.forEach((dropdown) => {
+    const container = dropdown.parentNode;
+    const opciones = container.querySelector(".opciones");
+    countries.forEach((country) => {
+      const node = document.createElement("a");
+      node.classList.add("opcion");
+      node.setAttribute("tabindex", "0");
+      node.href = "#";
+
+      node.innerHTML = `
+       <div class="contenido-opcion">
+        <img src="./assets/icons/mexico.png" alt="" />
+        <div class="textos">
+          <h1 class="titulo option" option_value="${country.id}"}>${country.dial_code}</h1>
+        </div>
+      </div>
+       `;
+      opciones.appendChild(node);
+    });
+  });
+}
+
+// Look for object base on Id
+
+function lookForObject(array, id) {
+  return array.find((object) => object.id === id);
+}
+
+// Función para cargar información Step 1
+function loadInfoStep1(user, countries) {
+  const email = document.getElementById("email");
+  const firstname = document.getElementById("firstname");
+  const lastname = document.getElementById("lastname");
+  const lastname_mother = document.getElementById("lastname_mother");
+  const linkedin = document.getElementById("linkedin");
+  const phone = document.getElementById("phone");
+  const whatsapp_preference = document.getElementById("whatsapp_preference");
+  const user_country_code = document.getElementById("user_country_code");
+  const country_code_container = document.getElementById(
+    "user_country_code_container"
+  );
+
+  email.value = user.email;
+  firstname.value = user.firstname;
+  lastname.value = user.lastname;
+  lastname_mother.value = user.lastname_mother;
+  linkedin.value = user.aditional_information.linkedin;
+  phone.value = user.phone;
+  whatsapp_preference.checked = user.aditional_information.whatsapp_preference;
+  user_country_code.value = user.international_prefix_id;
+
+  /*check for country code items */
+  const country = lookForObject(countries, user.international_prefix_id);
+  console.log(country, "country");
+
+  /* Load Dropdown Country */
+  const node = document.createElement("div");
+  node.classList.add("contenido-select");
+  node.innerHTML = `
+    <div class="contenido-select">
+         <div class="contenido-opcion">
+          <img src="./assets/icons/mexico.png" alt="">
+          <div class="textos">
+          <h1 class="titulo option" option_value="${country.id}" }="">${country.dial_code}</h1>
+          </div>
+        </div>
+     </div>
+`;
+  country_code_container.innerHTML = "";
+  country_code_container.appendChild(node);
+}
+
+// Función para agregar EventListener a inputs required
+function addEventListenerToInputs(campos) {
   campos.forEach((campo) => {
     campo.addEventListener("keyup", (e) => {
-      console.log("entro", campo)
       if (campo.value == "") {
         showValidationResultInput(campo, false);
       } else {
@@ -114,35 +250,47 @@ function addEventListenerToInputs(campos){
   });
 }
 
-// Función para agregar EventListener a Selects 
-function addEventListenerToSelectJustData(campos){
-  
+// Function para agregar EventListener a Emails input
+function addEventListenerGuestEmail(campos) {
   campos.forEach((campo) => {
-    
     campo.addEventListener("keyup", (e) => {
-      const inputSelect = campo.parentNode.querySelector(".inputSelect")
-      const labelSelect = inputSelect.parentNode.parentNode.querySelector("label")
-      console.log("entro", campo, labelSelect)
-      
-      if (inputSelect.value == "") {
-        campo.classList.add("error");
-        labelSelect.classList.add("error")
-
-      } else {
-        campo.classList.remove("error");        
-        labelSelect.classList.remove("error")
+      if (campo.type === "email") {
+        if (!validateEmail(campo.value)) {
+          showValidationResultInput(campo, false);
+        } else {
+          showValidationResultInput(campo, true);
+        }
       }
     });
   });
 }
 
-// Para accesibilidad simulo clicks, 
-const checkboxWrapper = document.querySelector(".checkbox-wsp");
-const containerRadio = document.querySelectorAll(".container-radio")
-const containerCheckbox = document.querySelectorAll(".container-checkbox-q")
-const subscribeElements = document.querySelectorAll(".form-element")
+// Función para agregar EventListener a Selects
+function addEventListenerToSelectJustData(campos) {
+  campos.forEach((campo) => {
+    campo.addEventListener("keyup", (e) => {
+      const inputSelect = campo.parentNode.querySelector(".inputSelect");
+      const labelSelect =
+        inputSelect.parentNode.parentNode.querySelector("label");
 
- checkboxWrapper.addEventListener("keydown", (event) => {
+      if (inputSelect.value == "") {
+        campo.classList.add("error");
+        labelSelect.classList.add("error");
+      } else {
+        campo.classList.remove("error");
+        labelSelect.classList.remove("error");
+      }
+    });
+  });
+}
+
+// Para accesibilidad simulo clicks,
+const checkboxWrapper = document.querySelector(".checkbox-wsp");
+const containerRadio = document.querySelectorAll(".container-radio");
+const containerCheckbox = document.querySelectorAll(".container-checkbox-q");
+const subscribeElements = document.querySelectorAll(".form-element");
+
+checkboxWrapper.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     // Simular un clic en el checkbox
     const checkbox = checkboxWrapper.querySelector("input[type='checkbox']");
@@ -150,20 +298,19 @@ const subscribeElements = document.querySelectorAll(".form-element")
   }
 });
 
-containerRadio.forEach(radio => {
+containerRadio.forEach((radio) => {
   radio.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
 
-      // Simular un clic en el checkbox     
+      // Simular un clic en el checkbox
       const radioInput = radio.querySelector("input[type='radio']");
       radioInput.click();
     }
   });
 });
-containerCheckbox.forEach(label => {
+containerCheckbox.forEach((label) => {
   label.addEventListener("keydown", (event) => {
-    console.log(label)
     if (event.key === "Enter") {
       event.preventDefault();
       //const radioInput = label.querySelector("input[type='checkbox']");
@@ -172,27 +319,26 @@ containerCheckbox.forEach(label => {
   });
 });
 
-subscribeElements.forEach(label => {
+subscribeElements.forEach((label) => {
   label.addEventListener("keydown", (event) => {
-     if (event.key === "Enter") {
+    if (event.key === "Enter") {
       event.preventDefault();
-       const radioInput = label.querySelector("input[type='checkbox']");
+      const radioInput = label.querySelector("input[type='checkbox']");
       radioInput.click();
     }
   });
 });
 
-
-
 /* After Loading----------------------------------------- */
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const plusSymbol = document.getElementById("plus_symbol_wrapper");
   const emailInput = document.getElementById("email");
 
   emailInput.focus();
+  /* Evento para agregar los mails de invitados */
   plusSymbol.addEventListener("click", (e) => {
     const emailWrapper = document.querySelector(".form_emails_wrapper");
-   
+
     const emailFormsQuantity =
       document.querySelectorAll(".email_invite").length;
     if (emailFormsQuantity < 9) {
@@ -203,16 +349,60 @@ document.addEventListener("DOMContentLoaded", function () {
         plusSymbol.style.top = "auto";
         plusSymbol.style.bottom = "36px";
       }
-      const newEmails = document.querySelectorAll('.new_email')
-      addEventListenerToInputs(newEmails)
+      const newEmails = document.querySelectorAll(".new_email");
+      addEventListenerToInputs(newEmails);
     }
   });
 
   const inputNumero = document.querySelectorAll(".just_numbers");
-  inputNumero.forEach(input => {
-    input.addEventListener("input", soloNumeros);    
+  inputNumero.forEach((input) => {
+    input.addEventListener("input", soloNumeros);
   });
 
+  /* Handle Otro Option Question 3*/
+  let optionOtro = document.getElementById("checkbox_otro");
+  let inputOtro = document.getElementById("input_otro_hidden");
+  optionOtro.addEventListener("click", (e) => {
+    if (optionOtro.querySelector("input").checked) {
+      inputOtro.style.display = "block";
+    } else {
+      inputOtro.style.display = "none";
+      inputOtro.value = "";
+    }
+  });
+
+  /* Handle Formulario  */
+  const submitS1Button = document.getElementById("form_step-1");
+  const submitS2Button = document.getElementById("form_step-2");
+  const submitS3Button = document.getElementById("form_step-3");
+  const step1Window = document.querySelector(".step-1");
+  const step2Window = document.querySelector(".step-2");
+  const step3Window = document.querySelector(".step-3");
+  const step4Window = document.querySelector(".step-4");
+  const camposSteps = document.querySelectorAll(".form_input.required");
+  const camposSelect = document.querySelectorAll(".select");
+  const selectInputStep1 = document.querySelectorAll(".step-1 .select");
+
+  /* Time Line Wrapper Car */
+  const carWrapper = document.querySelector(".car_wrapper");
+  const dosCircle = document.getElementById("number_dos_wrapper");
+  const tresCircle = document.getElementById("number_tres_wrapper");
+  const unoCheck = document.getElementById("uno_check");
+  const dosCheck = document.getElementById("dos_check");
+  const tresCheck = document.getElementById("tres_check");
+  const timeLineWrapper = document.querySelector(".timeLine_wrapper");
+
+  /* Variables Formulario Info User*/
+  const { hash } = getHashParams();
+  let user = await fetchAndgetUser(BASEURL, hash);
+  console.log("the user is ", user);
+
+  /*GetInfo DropDowns*/
+  const countries = await getCountries(BASEURL);
+  console.log(countries);
+
+  /* Load Info DropDowns */
+  loadCountryCode(countries);
 
   /* Select Box, creo los Selects */
   const selects = document.querySelectorAll(".selectbox");
@@ -229,15 +419,18 @@ document.addEventListener("DOMContentLoaded", function () {
         contenidoSelect.innerHTML = e.currentTarget.innerHTML;
         selectElement.classList.toggle("active");
         opciones.classList.toggle("active");
-        hiddenInput.value = e.currentTarget.querySelector(".titulo").innerText;
-        
-        /* Remuevo error, en el caso que haya */                            
-        const parentElement = opcion.parentElement.parentElement.parentElement
-        const label = parentElement.querySelector(".form_label")
-        const select = parentElement.querySelector(".select")
-        label.classList.remove("error")
-        select.classList.remove("error")
-       });
+        //   hiddenInput.value = e.currentTarget.querySelector(".titulo").innerText;
+        hiddenInput.value = e.currentTarget
+          .querySelector(".titulo")
+          .getAttribute("option_value");
+
+        /* Remuevo error, en el caso que haya */
+        const parentElement = opcion.parentElement.parentElement.parentElement;
+        const label = parentElement.querySelector(".form_label");
+        const select = parentElement.querySelector(".select");
+        label.classList.remove("error");
+        select.classList.remove("error");
+      });
     });
 
     selectElement.addEventListener("click", () => {
@@ -246,40 +439,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /* Handle Otro Option Question 3*/
-  let optionOtro = document.getElementById("checkbox_otro");
-  let inputOtro = document.getElementById("input_otro_hidden");
-
-  optionOtro.addEventListener("click", (e) => {
-    if (optionOtro.querySelector("input").checked) {
-      inputOtro.style.display = "block";
-    } else {
-      inputOtro.style.display = "none";
-      inputOtro.value = "";
-    }
-  });
-
-  /* Handle Formulario  */
-
-  const submitS1Button = document.getElementById("form_step-1");
-  const submitS2Button = document.getElementById("form_step-2");
-  const submitS3Button = document.getElementById("form_step-3");
-  const step1Window = document.querySelector(".step-1");
-  const step2Window = document.querySelector(".step-2");
-  const step3Window = document.querySelector(".step-3");
-  const step4Window = document.querySelector(".step-4");
-  const camposSteps = document.querySelectorAll(".form_input.required");
-  const camposSelect = document.querySelectorAll(".select")
-  const selectInputStep1 = document.querySelectorAll(".step-1 .select");
- 
-  /* Time Line Wrapper Car */
-  const carWrapper = document.querySelector(".car_wrapper");
-  const dosCircle = document.getElementById("number_dos_wrapper");
-  const tresCircle = document.getElementById("number_tres_wrapper");
-  const unoCheck = document.getElementById("uno_check");
-  const dosCheck = document.getElementById("dos_check");
-  const tresCheck = document.getElementById("tres_check");
-  const timeLineWrapper = document.querySelector(".timeLine_wrapper");
+  /* Load Step 1 */ if (user) {
+    loadInfoStep1(user, countries);
+  }
 
   /* Submision Formulario step 1*/
   submitS1Button.addEventListener("submit", (e) => {
@@ -296,8 +458,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const camposSelect = document.querySelectorAll(
       ".step-1 .inputSelect.required"
     );
+
     const validSelects = validarCamposSelect(camposSelect);
-     if (!validInputs || !validSelects) {
+   
+    if (!validInputs || !validSelects) {
       return;
     }
 
@@ -321,17 +485,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   submitS2Button.addEventListener("submit", (e) => {
     e.preventDefault();
-  /* Validador de Campos */
-  const camposStep = document.querySelectorAll(
-    ".step-2 .form_input.required"
-  );
-  const validInputs = validarCampos(camposStep);
-  const camposSelect = document.querySelectorAll(
-    ".step-2 .inputSelect.required");
-  const validSelects = validarCamposSelect(camposSelect);
-  if (!validInputs || !validSelects) {
-    return;
-  }
+    /* Validador de Campos */
+    const camposStep = document.querySelectorAll(
+      ".step-2 .form_input.required"
+    );
+    const validInputs = validarCampos(camposStep);
+    const camposSelect = document.querySelectorAll(
+      ".step-2 .inputSelect.required"
+    );
+    const validSelects = validarCamposSelect(camposSelect);
+    if (!validInputs || !validSelects) {
+      return;
+    }
 
     step2Window.classList.add("swapping");
     step2Window.addEventListener(
@@ -353,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   submitS3Button.addEventListener("submit", (e) => {
-    console.log("submtio")
+    console.log("submtio");
     e.preventDefault();
     step3Window.classList.add("swapping");
 
@@ -376,10 +541,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /* Handle Input Listener */
-  addEventListenerToInputs(camposSteps)
-  addEventListenerToSelectJustData(camposSelect)
-
-  
+  addEventListenerToInputs(camposSteps);
+  addEventListenerToSelectJustData(camposSelect);
 
   /* Submision Formulario step 3*/
   const form3 = document.getElementById("form_step-3");

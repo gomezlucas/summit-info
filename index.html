@@ -143,15 +143,15 @@
               <!-- Apellidos -->
               <div class="form_control">
                 <div class="form-field full-width">
-                  <label class="form_label" for="motherlastname"
+                  <label class="form_label" for="lastname"
                     >Apellido paterno<span class="text-red">*</span></label
                   >
                   <div class="form_input_wrapper">
                     <input
                       class="form_input required"
                       type="text"
-                      id="motherlastname"
-                      name="motherlastname"
+                      id="lastname"
+                      name="lastname"
                       placeholder="Apellido"
                        
                     />
@@ -168,15 +168,15 @@
                   </div>
                 </div>
                 <div class="form-field full-width">
-                  <label class="form_label" for="firstname"
+                  <label class="form_label" for="lastname_mother"
                     >Apellido materno<span class="text-red">*</span></label
                   >
                   <div class="form_input_wrapper">
                     <input
                       class="form_input required"
                       type="text"
-                      id="fatherlastname"
-                      name="fatherlastname"
+                      id="lastname_mother"
+                      name="lastname_mother"
                       placeholder="Apellido"                      
                     />
                     <img
@@ -230,14 +230,15 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select" id="select" tabindex="0">
-                      <div class="contenido-select">
+                    <div class="select countries_code" id="select" tabindex="0">
+                      <div class="contenido-select" id="user_country_code_container">
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
                       <img src="./assets/icons/bxs_up-arrow.png" alt="" />
                     </div>
 
                     <div class="opciones" id="opciones">
+                      <!--
                       <a href="#" class="opcion default" tabindex="0">
                         <div class="contenido-opcion">
                           <img src="./assets/icons/argentina.png" alt="" />
@@ -254,9 +255,11 @@
                           </div>
                         </div>
                       </a>
+                      -->
                     </div>
                     <input
-                      class="inputSelect required"
+                      class="inputSelect required "
+                      id="user_country_code"
                       type="hidden"
                       name="pais"
                       id="inputSelect"
@@ -267,7 +270,7 @@
                   <!--End: Select Input -->
                 </div>
                 <div class="form-field full-width">
-                  <label class="form_label" for="mobile"
+                  <label class="form_label" for="phone"
                     >Celular (solo números sin espacios)<span class="text-red"
                       >*</span
                     ></label
@@ -276,8 +279,8 @@
                     <input
                       class="form_input required just_numbers"
                       type="text"
-                      id="mobile"
-                      name="mobile"
+                      id="phone"
+                      name="phone"
                       placeholder="Ej: 5554545454"
                      />
                     <img
@@ -299,12 +302,12 @@
                 <div class="checkbox-wsp" tabindex="0">
                   <input
                     type="checkbox"
-                    name="newsletter"                    
-                    id="thing1"
+                    name="whatsapp_preference"                    
+                    id="whatsapp_preference"
                     checked
                    />
-                  <label for="thing1"  ></label>
-                  <label for="thing1" class="checkbox-text form_label">
+                 <label for="whatsapp_preference"  ></label>
+                  <label for="whatsapp_preference" class="checkbox-text form_label">
                     <u
                       >Deseo recibir mi código de acceso al evento por WhastApp
                     </u></label
@@ -326,13 +329,13 @@
                 </div>
                 <!--Begin Email Component -->
                 <div class="form-field emails full-width">
-                  <label class="form_label" for="email-invite">Email</label>
+                  <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite required"
+                      class="form_input email_invite "
                       type="email"
-                      id="email-invite"
-                      name="email-invite"
+                      id="guests"
+                      name="guests"
                       placeholder="invitado@correo.com"
                      />
                     <img
@@ -350,13 +353,13 @@
                 <!--End Email Component -->
                 <!--Begin Email Component -->
                 <div class="form-field emails full-width">
-                  <label class="form_label" for="email-invite">Email</label>
+                  <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite required"
+                      class="form_input email_invite "
                       type="email"
-                      id="email-invite"
-                      name="email-invite"
+                      id="guests"
+                      name="guests"
                       placeholder="invitado@correo.com"
                      />
                     <img
@@ -374,13 +377,13 @@
                 <!--End Email Component -->
                 <!--Begin Email Component -->
                 <div class="form-field emails full-width">
-                  <label class="form_label" for="email-invite">Email</label>
+                  <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite required"
+                      class="form_input email_invite "
                       type="email"
-                      id="email-invite"
-                      name="email-invite"
+                      id="guests"
+                      name="guests"
                       placeholder="invitado@correo.com"
                        
                     />
