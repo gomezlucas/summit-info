@@ -73,7 +73,7 @@
 
     <section class="form_section">
       <!--STEP-1------------------------------------------------------------------------------------->
-      <div class="step-1"  >
+      <div class="step-1" style="display: none">
         <div class="container_questions">
           <form id="form_step-1">
             <div class="form_title_wrapper">
@@ -101,7 +101,6 @@
                       id="email"
                       name="email"
                       placeholder="Email"
-                      
                     />
                     <img
                       src="./assets/icons/icon-ok.svg"
@@ -126,7 +125,7 @@
                       id="firstname"
                       name="firstname"
                       placeholder="Nombre"
-                     />
+                    />
                     <img
                       src="./assets/icons/icon-ok.svg"
                       class="hero_input_result icon_ok"
@@ -153,7 +152,6 @@
                       id="lastname"
                       name="lastname"
                       placeholder="Apellido"
-                       
                     />
                     <img
                       src="./assets/icons/icon-ok.svg"
@@ -177,7 +175,7 @@
                       type="text"
                       id="lastname_mother"
                       name="lastname_mother"
-                      placeholder="Apellido"                      
+                      placeholder="Apellido"
                     />
                     <img
                       src="./assets/icons/icon-ok.svg"
@@ -198,7 +196,6 @@
                   <label class="form_label" for="linkedin">Linkedin</label>
                   <div class="form_input_wrapper">
                     <input
-                      
                       class="form_input"
                       type="text"
                       id="linkedin"
@@ -231,7 +228,10 @@
                   <!--Begin: Select Input -->
                   <div class="selectbox">
                     <div class="select countries_code" id="select" tabindex="0">
-                      <div class="contenido-select" id="user_country_code_container">
+                      <div
+                        class="contenido-select"
+                        id="user_country_code_container"
+                      >
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
                       <img src="./assets/icons/bxs_up-arrow.png" alt="" />
@@ -258,13 +258,13 @@
                       -->
                     </div>
                     <input
-                      class="inputSelect required "
+                      class="inputSelect required"
                       id="user_country_code"
                       type="hidden"
                       name="pais"
                       id="inputSelect"
                       value=""
-                     />
+                    />
                   </div>
 
                   <!--End: Select Input -->
@@ -282,7 +282,7 @@
                       id="phone"
                       name="phone"
                       placeholder="Ej: 5554545454"
-                     />
+                    />
                     <img
                       src="./assets/icons/icon-ok.svg"
                       class="hero_input_result icon_ok"
@@ -298,16 +298,19 @@
               </div>
 
               <!-- Begin Checkbox -->
-              <div class="form_control checkbox" >
+              <div class="form_control checkbox">
                 <div class="checkbox-wsp" tabindex="0">
                   <input
                     type="checkbox"
-                    name="whatsapp_preference"                    
+                    name="whatsapp_preference"
                     id="whatsapp_preference"
                     checked
-                   />
-                 <label for="whatsapp_preference"  ></label>
-                  <label for="whatsapp_preference" class="checkbox-text form_label">
+                  />
+                  <label for="whatsapp_preference"></label>
+                  <label
+                    for="whatsapp_preference"
+                    class="checkbox-text form_label"
+                  >
                     <u
                       >Deseo recibir mi código de acceso al evento por WhastApp
                     </u></label
@@ -332,12 +335,12 @@
                   <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite "
+                      class="form_input email_invite"
                       type="email"
                       id="guests"
                       name="guests"
                       placeholder="invitado@correo.com"
-                     />
+                    />
                     <img
                       src="./assets/icons/icon-ok.svg"
                       class="hero_input_result icon_ok"
@@ -356,12 +359,12 @@
                   <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite "
+                      class="form_input email_invite"
                       type="email"
                       id="guests"
                       name="guests"
                       placeholder="invitado@correo.com"
-                     />
+                    />
                     <img
                       src="./assets/icons/icon-ok.svg"
                       class="hero_input_result icon_ok"
@@ -380,12 +383,11 @@
                   <label class="form_label" for="guests">Email</label>
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input email_invite "
+                      class="form_input email_invite"
                       type="email"
                       id="guests"
                       name="guests"
                       placeholder="invitado@correo.com"
-                       
                     />
                     <img
                       src="./assets/icons/icon-ok.svg"
@@ -428,7 +430,7 @@
       </div>
       <!--STEP-1------------------------------------------------------------------------------------->
       <!--STEP-2------------------------------------------------------------------------------------->
-      <div class="step-2"  >
+      <div class="step-2" style="display: block">
         <div class="container_questions">
           <form action="" id="form_step-2">
             <div class="form_title_wrapper">
@@ -473,14 +475,18 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
+                    <div
+                      class="select just_data businessSectors"
+                      id="select"
+                      tabindex="0"
+                    >
                       <div class="contenido-select">
                         <h1 class="titulo">Selecciona una opción</h1>
                       </div>
                       <img src="./assets/icons/bxs_up-arrow.png" alt="" />
                     </div>
-
                     <div class="opciones" id="opciones">
+                      <!-- 
                       <a href="#" class="opcion default">
                         <div class="contenido-opcion">
                           <div class="textos">
@@ -495,12 +501,13 @@
                           </div>
                         </div>
                       </a>
-                    </div>
+                    --></div>
+
                     <input
                       class="inputSelect required"
                       type="hidden"
-                      name="pais"
-                      id="inputSelect"
+                      name="business_subsector_id"
+                      id="business_subsector_id"
                       value=""
                     />
                   </div>
@@ -697,7 +704,7 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0" >
+                    <div class="select just_data" id="select" tabindex="0">
                       <div class="contenido-select">
                         <h1 class="titulo">Cargo</h1>
                       </div>
@@ -912,8 +919,8 @@
               <!--  Estado / Colonia -->
               <div class="form_control telefono">
                 <div class="form-field">
-                  <label class="form_label" for="street"
-                    > Calle <span class="text-red">*</span></label
+                  <label class="form_label" for="street">
+                    Calle <span class="text-red">*</span></label
                   >
                   <div class="form_input_wrapper">
                     <input
@@ -976,8 +983,8 @@
       </div>
       <!--STEP-2------------------------------------------------------------------------------------->
       <!--STEP-3------------------------------------------------------------------------------------->
-      <div class="step-3" >
-        <div class="container_questions" >
+      <div class="step-3">
+        <div class="container_questions">
           <form id="form_step-3" id="form_step-3">
             <div class="form_title_wrapper">
               <p class="form_title">Intereses</p>
@@ -992,8 +999,7 @@
 
               <!--Question 1-->
               <div class="form_radio_buttons_container">
-                <label class="container-radio" 
-                tabindex="0"
+                <label class="container-radio" tabindex="0"
                   >No, está es mi primera vez
                   <input
                     type="radio"
@@ -1004,10 +1010,14 @@
                   />
                   <span class="checkmark"></span>
                 </label>
-                <label class="container-radio"
-                tabindex="0"
+                <label class="container-radio" tabindex="0"
                   >Sí, he asistido antes
-                  <input type="radio" name="firstTime" value="si" tabindex="-1" />
+                  <input
+                    type="radio"
+                    name="firstTime"
+                    value="si"
+                    tabindex="-1"
+                  />
                   <span class="checkmark"></span>
                 </label>
               </div>
@@ -1023,18 +1033,18 @@
               <div class="form_checkbox_buttons_container">
                 <label class="container-checkbox-q" tabindex="0"
                   >Proveeduría
-                  <input type="checkbox" name="proveduria " tabindex="-1"/>
+                  <input type="checkbox" name="proveduria " tabindex="-1" />
                   <span class="checkmark-q" tabindex="-1"></span>
                 </label>
 
                 <label class="container-checkbox-q" tabindex="0"
                   >Capacitación
-                  <input type="checkbox" name="proveduria" tabindex="-1"/>
+                  <input type="checkbox" name="proveduria" tabindex="-1" />
                   <span class="checkmark-q" tabindex="-1"></span>
                 </label>
                 <label class="container-checkbox-q" tabindex="0"
                   >Networking entre colegas del sector
-                  <input type="checkbox" tabindex="-1"/>
+                  <input type="checkbox" tabindex="-1" />
                   <span class="checkmark-q" tabindex="-1"></span>
                 </label>
               </div>
@@ -1051,17 +1061,17 @@
                 <div class="form_checkbox_column">
                   <label class="container-checkbox-q" tabindex="0"
                     >Operaciones logísticas
-                    <input type="checkbox"  tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q" tabindex="-1"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Comercio exterior
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q" tabindex="-1"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Infraestructura y equipamiento para centros de distribución
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
@@ -1071,17 +1081,17 @@
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Embalaje y suministros para protección de carga
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Tecnologías (Software y Hardware)
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Camiones y utilitarios
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                 </div>
@@ -1089,22 +1099,22 @@
                 <div class="form_checkbox_column">
                   <label class="container-checkbox-q" tabindex="0"
                     >Transporte
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Seguridad de carga y personas
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Promotores inmobiliarios
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Asesoramiento
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
@@ -1114,12 +1124,15 @@
                   </label>
                   <label class="container-checkbox-q" tabindex="0"
                     >Asociaciones, cámaras y entitidades empresariales
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
-                  <label id="checkbox_otro" class="container-checkbox-q" tabindex="0"
+                  <label
+                    id="checkbox_otro"
+                    class="container-checkbox-q"
+                    tabindex="0"
                     >Otro (¿cuál?)
-                    <input type="checkbox" tabindex="-1"/>
+                    <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                     <input
                       id="input_otro_hidden"
@@ -1441,6 +1454,7 @@
         THE LOGISTICS WORLD® 2025 · TODOS LOS DERECHOS RESERVADOS
       </p>
     </footer>
+    <script src="./dropdowns.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

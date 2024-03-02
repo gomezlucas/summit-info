@@ -1,10 +1,11 @@
+
 const BASEURL = "https://stagingapi.thelogisticsworld.com/v1/events";
 
 const emailNode = `<div class="form-field emails">
 <label class="form_label" for="guests">Email</label>
 <div class="form_input_wrapper">
   <input
-    class="form_input email_invite required new_email"
+    class="form_input email_invite  new_email"
     type="email"
     id="guests"
     name="guests"
@@ -133,6 +134,32 @@ async function fetchAndgetUser(url, hash) {
   }
 }
 
+// Función para hacer el post de los Pasos
+async function postUser(url, hash, data) {
+  try {
+    const response = await fetch(`${url}/register/${hash}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
+    /*
+    const responseData = await response.json();
+    if (responseData) {
+      const user = responseData.user;
+      return user;
+    }*/
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 // Function para obtener código país
 async function getCountries(url) {
   try {
@@ -212,7 +239,6 @@ function loadInfoStep1(user, countries) {
 
   /*check for country code items */
   const country = lookForObject(countries, user.international_prefix_id);
-  console.log(country, "country");
 
   /* Load Dropdown Country */
   const node = document.createElement("div");
@@ -229,6 +255,37 @@ function loadInfoStep1(user, countries) {
 `;
   country_code_container.innerHTML = "";
   country_code_container.appendChild(node);
+}
+// Function para obtener datos cargados en Step1
+function getInputsStep1() {
+  const firstname = document.getElementById("firstname").value;
+  const lastname = document.getElementById("lastname").value;
+  const lastname_mother = document.getElementById("lastname_mother").value;
+  const linkedin = document.getElementById("linkedin").value;
+  const phone = document.getElementById("phone").value;
+  const whatsapp_preference = document.getElementById(
+    "whatsapp_preference"
+  ).checked;
+  const international_prefix_id =
+    document.getElementById("user_country_code").value;
+
+  const emailGuests = document.querySelectorAll(".email_invite");
+  const emails = Array.from(emailGuests);
+
+  const guests = emails
+  .filter(email=> email.value)
+  .map(email => email.value);
+   
+  return {
+    firstname,
+    lastname,
+    lastname_mother,
+    international_prefix_id,
+    phone,
+    whatsapp_preference,
+    linkedin,
+    guests
+  };
 }
 
 // Función para agregar EventListener a inputs required
@@ -381,6 +438,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const step4Window = document.querySelector(".step-4");
   const camposSteps = document.querySelectorAll(".form_input.required");
   const camposSelect = document.querySelectorAll(".select");
+  const camposEmail = document.querySelectorAll('.form_input.email_invite ')
   const selectInputStep1 = document.querySelectorAll(".step-1 .select");
 
   /* Time Line Wrapper Car */
@@ -399,7 +457,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   /*GetInfo DropDowns*/
   const countries = await getCountries(BASEURL);
-  console.log(countries);
 
   /* Load Info DropDowns */
   loadCountryCode(countries);
@@ -460,11 +517,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     );
 
     const validSelects = validarCamposSelect(camposSelect);
-   
+
     if (!validInputs || !validSelects) {
       return;
     }
 
+    const newData = getInputsStep1();
+    // Realizo el post al Endpoint, no funcionando
+    //postUser(BASEURL, hash,data)
+ //   console.log(newData, "the new data is");
+    
     step1Window.classList.add("swapping");
     step1Window.addEventListener(
       "animationend",
@@ -477,11 +539,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           carWrapper.classList.add("move_step_2");
           dosCircle.classList.add("active");
           unoCheck.style.opacity = 1;
+          //loadDropdownsStep2()
+          //loadInfoStep2()
         }, 500);
       },
       { once: true }
     );
   });
+  loadDropdownsStep2()
 
   submitS2Button.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -542,6 +607,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   /* Handle Input Listener */
   addEventListenerToInputs(camposSteps);
+  addEventListenerToInputs(camposEmail);
   addEventListenerToSelectJustData(camposSelect);
 
   /* Submision Formulario step 3*/
@@ -577,12 +643,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // console.log(otroInputValue);
   });
 
-  /* Load default option 
-   contenidoSelect.innerHTML = `<div class="contenido-opcion">
-   <img src="./assets/icons/mexico.png" alt="">
-   <div class="textos">
-     <h1 class="titulo option">+56</h1>
-    </div>
- </div>`  */
+
 });
 /* End After Loading----------------------------------------- */
