@@ -58,10 +58,11 @@ function validarCampos(campos) {
 // Function para Validar Inputs  select
 function validarCamposSelect(campos) {
   let validos = true;
-
+  console.log(campos)
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
+    console.log("el valor del campo es ", campo.value)
     const parentNode = campo.parentNode.parentNode;
     const select = parentNode.querySelector(".select");
     const label = parentNode.querySelector(".form_label");
@@ -77,8 +78,81 @@ function validarCamposSelect(campos) {
   return validos;
 }
 
+
+
+function getInvalidRadioGroups() {
+  // Obtener todos los radio buttons
+  const step2Div = document.querySelector('.step-2');
+  const radioButtons = step2Div.querySelectorAll('input[type="radio"]');
+  
+  // Almacenar nombres de grupos con error
+  const invalidGroupNames = [];
+  
+  // Crear un objeto para almacenar el estado de los grupos
+  const groupCheckedStatus = {};
+  
+  // Recorrer radio buttons
+  for (const radioButton of radioButtons) {
+    const groupName = radioButton.name;
+
+    if (radioButton.classList.contains('select_placeholder') && radioButton.checked) {
+      continue; // Saltar este radio button y pasar al siguiente
+    }
+    
+    // Inicializar el estado del grupo si no existe
+    if (!groupCheckedStatus[groupName]) {
+      groupCheckedStatus[groupName] = false;
+    }
+    
+    // Actualizar el estado del grupo si el botón está seleccionado
+    if (radioButton.checked) {
+      groupCheckedStatus[groupName] = true;
+    }
+  }
+  
+  // Filtrar los grupos que no tienen ningún botón seleccionado
+  for (const groupName in groupCheckedStatus) {
+    if (!groupCheckedStatus[groupName]) {
+      invalidGroupNames.push(groupName);
+    }
+  }
+
+  console.log(invalidGroupNames);
+  return invalidGroupNames;
+}
+
+function addErrorBorderToGroups(groupNames) {
+  // Initial checks for troubleshooting:
+  if (!groupNames || groupNames.length === 0) {
+    console.warn("No group names provided to addErrorBorderToGroups function.");
+    return; 
+  }
+
+  // Optimized element selection:
+  const detailsElements = document.querySelectorAll('.custom-select');
+  const filteredDetails = Array.from(detailsElements)
+
+
+  groupNames.forEach(name => {
+    const node = document.getElementById(name)
+    const label = node.parentNode.parentNode.querySelector(".form_label")
+    node.classList.add("error")
+    label.classList.add("error")
+  });
+  
+console.log(detailsElements, 'details')
+  return
+  // Apply "error" class only if elements are found:
+  if (filteredDetails.length > 0) {
+    console.log("Found elements with matching IDs:", filteredDetails);
+    filteredDetails.forEach(element => element.classList.add("error"));
+  } else {
+    console.warn("No matching elements found with IDs:", groupNames);
+  }
+}
 // Función para mostrar el resultado de la validación de los inputs type text/email
 function showValidationResultInput(campo, valid) {
+  
   const parentNode = campo.parentNode;
   const labelSibling = parentNode.parentNode.querySelector("label");
   const okIcon = parentNode.querySelector(".icon_ok");
@@ -135,10 +209,10 @@ async function fetchAndgetUser(url, hash) {
 }
 
 // Función para hacer el post de los Pasos
-async function postUser(url, hash, data) {
+async function putUser(url, hash, data) {
   try {
     const response = await fetch(`${url}/register/${hash}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -184,9 +258,8 @@ async function getCountries(url) {
 
 //Function para cargar Código País
 function loadCountryCode(countries) {
-  const dropdownCountries = document.querySelectorAll(".countries_code");
-
-  dropdownCountries.forEach((dropdown) => {
+   const dropdownCountries = document.querySelectorAll(`.countries_code`);
+   dropdownCountries.forEach((dropdown) => {
     const container = dropdown.parentNode;
     const opciones = container.querySelector(".opciones");
     countries.forEach((country) => {
@@ -228,18 +301,25 @@ function loadInfoStep1(user, countries) {
     "user_country_code_container"
   );
 
-  email.value = user.email;
-  firstname.value = user.firstname;
-  lastname.value = user.lastname;
-  lastname_mother.value = user.lastname_mother;
-  linkedin.value = user.aditional_information.linkedin;
-  phone.value = user.phone;
-  whatsapp_preference.checked = user.aditional_information.whatsapp_preference;
-  user_country_code.value = user.international_prefix_id;
+  email.value = user.email || '';
+  firstname.value = user.firstname || '';
+  lastname.value = user.lastname || '';
+  lastname_mother.value = user.lastname_mother || '';
+  linkedin.value = user.aditional_information && (user.aditional_information.linkedin) || ''
+  phone.value = user.phone || '';
+  if (user && user.aditional_information.whatsapp_preference !== undefined){
+    whatsapp_preference.checked = user.aditional_information.whatsapp_preference
+  }else{
+    whatsapp_preference.checked = true
+  }
+  //whatsapp_preference.checked = (user.aditional_information &&  user.aditional_information.whatsapp_preference) ? user.aditional_information.whatsapp_preference : true;
+  user_country_code.value = user.international_prefix_id || '';
+
+ console.log((user.aditional_information &&  user.aditional_information.whatsapp_preference), ' a ver ')
 
   /*check for country code items */
-  const country = lookForObject(countries, user.international_prefix_id);
-
+  if (user && user.international_prefix_id ){
+    const country = lookForObject(countries, user.international_prefix_id);
   /* Load Dropdown Country */
   const node = document.createElement("div");
   node.classList.add("contenido-select");
@@ -255,6 +335,9 @@ function loadInfoStep1(user, countries) {
 `;
   country_code_container.innerHTML = "";
   country_code_container.appendChild(node);
+  }
+
+
 }
 // Function para obtener datos cargados en Step1
 function getInputsStep1() {
@@ -279,6 +362,7 @@ function getInputsStep1() {
   return {
     firstname,
     lastname,
+    event_type_id: 1,
     lastname_mother,
     international_prefix_id,
     phone,
@@ -287,6 +371,42 @@ function getInputsStep1() {
     guests
   };
 }
+
+
+function getInputsStep2(){
+  const company_name = document.getElementById("company_name").value;
+  const company_phone = document.getElementById("company_phone").value
+  const website = document.getElementById("website_company").value
+  const delegation_name = document.getElementById("delegation_name").value
+  const cp = document.getElementById("cp").value
+  const street = document.getElementById("street").value
+  const street_number = document.getElementById("street_number").value
+  
+  const country_id = document.querySelector('input[type="radio"][name="countries"]:checked').value;
+  const state_id = document.querySelector('input[type="radio"][name="states"]:checked').value;
+  
+  const delegation_id = country_id == '2' ? document.querySelector('input[type="radio"][name="delegations"]:checked').value : '';
+  const colony_id =  country_id == '2'?  document.querySelector('input[type="radio"][name="colonies"]:checked').value : ''
+
+// TODO SECTOR, GIRO, TAMAÑO, CARGO Y AREA
+
+  const data ={
+    company_name, 
+    company_phone,
+    website,
+    delegation_name,
+    cp, 
+    street, 
+    street_number,
+    country_id,
+    state_id,
+    delegation_id,
+    colony_id
+  }
+  console.log(data)
+  return data
+}
+
 
 // Función para agregar EventListener a inputs required
 function addEventListenerToInputs(campos) {
@@ -452,14 +572,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   /* Variables Formulario Info User*/
   const { hash } = getHashParams();
-  let user = await fetchAndgetUser(BASEURL, hash);
+  let user = {}
+  if(hash){
+     user = await fetchAndgetUser(BASEURL, hash);
+  }
   console.log("the user is ", user);
 
   /*GetInfo DropDowns*/
   const countries = await getCountries(BASEURL);
 
   /* Load Info DropDowns */
-  loadCountryCode(countries);
+  loadCountryCode(countries, '.step-1');
 
   /* Select Box, creo los Selects */
   const selects = document.querySelectorAll(".selectbox");
@@ -501,7 +624,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   /* Submision Formulario step 1*/
-  submitS1Button.addEventListener("submit", (e) => {
+  submitS1Button.addEventListener("submit", async (e) => {
     e.preventDefault();
     const newsletterChecked = document.querySelector(
       'input[name="newsletter"]'
@@ -524,27 +647,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const newData = getInputsStep1();
     // Realizo el post al Endpoint, no funcionando
-    //postUser(BASEURL, hash,data)
+    try {
+      console.log(BASEURL, hash,newData)
+      const resp = await putUser(BASEURL, hash,newData)
+       step1Window.classList.add("swapping");
+      step1Window.addEventListener(
+        "animationend",
+        () => {
+          window.scrollTo(0, 0);
+          setTimeout(() => {
+            step1Window.classList.add("hide");
+            step1Window.classList.remove("swapping");
+            step2Window.classList.add("show");
+            carWrapper.classList.add("move_step_2");
+            dosCircle.classList.add("active");
+            unoCheck.style.opacity = 1;
+            //loadDropdownsStep2()
+            //loadInfoStep2()
+          }, 500);
+        },
+        { once: true }
+      );
+    } catch (error) {
+        console.log('Error in the submssion of the form', error)
+    }
  //   console.log(newData, "the new data is");
     
-    step1Window.classList.add("swapping");
-    step1Window.addEventListener(
-      "animationend",
-      () => {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          step1Window.classList.add("hide");
-          step1Window.classList.remove("swapping");
-          step2Window.classList.add("show");
-          carWrapper.classList.add("move_step_2");
-          dosCircle.classList.add("active");
-          unoCheck.style.opacity = 1;
-          //loadDropdownsStep2()
-          //loadInfoStep2()
-        }, 500);
-      },
-      { once: true }
-    );
+  
   });
   loadDropdownsStep2()
 
@@ -559,10 +688,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       ".step-2 .inputSelect.required"
     );
     const validSelects = validarCamposSelect(camposSelect);
+
+    const groupNames = getInvalidRadioGroups()
+    addErrorBorderToGroups(groupNames)
+  
+    const newData = getInputsStep2()
+    
     if (!validInputs || !validSelects) {
       return;
     }
 
+    return
     step2Window.classList.add("swapping");
     step2Window.addEventListener(
       "animationend",

@@ -73,7 +73,7 @@
 
     <section class="form_section">
       <!--STEP-1------------------------------------------------------------------------------------->
-      <div class="step-1" style="display: none">
+      <div class="step-1" >
         <div class="container_questions">
           <form id="form_step-1">
             <div class="form_title_wrapper">
@@ -238,24 +238,7 @@
                     </div>
 
                     <div class="opciones" id="opciones">
-                      <!--
-                      <a href="#" class="opcion default" tabindex="0">
-                        <div class="contenido-opcion">
-                          <img src="./assets/icons/argentina.png" alt="" />
-                          <div class="textos">
-                            <h1 class="titulo option">+54</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion" tabindex="0">
-                        <div class="contenido-opcion">
-                          <img src="./assets/icons/mexico.png" alt="" />
-                          <div class="textos">
-                            <h1 class="titulo option">+56</h1>
-                          </div>
-                        </div>
-                      </a>
-                      -->
+      
                     </div>
                     <input
                       class="inputSelect required"
@@ -430,7 +413,7 @@
       </div>
       <!--STEP-1------------------------------------------------------------------------------------->
       <!--STEP-2------------------------------------------------------------------------------------->
-      <div class="step-2" style="display: block">
+      <div class="step-2" >
         <div class="container_questions">
           <form action="" id="form_step-2">
             <div class="form_title_wrapper">
@@ -473,46 +456,38 @@
                   <label class="form_label" for="">
                     Sector de la empresa <span class="text-red">*</span></label
                   >
-                  <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div
-                      class="select just_data businessSectors"
-                      id="select"
-                      tabindex="0"
-                    >
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-                    <div class="opciones" id="opciones">
-                      <!-- 
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Marketing</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Tecnología</h1>
-                          </div>
-                        </div>
-                      </a>
-                    --></div>
+              
 
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="business_subsector_id"
-                      id="business_subsector_id"
-                      value=""
-                    />
-                  </div>
-
-                  <!--End: Select Input -->
+                  <details class="custom-select">
+                    <summary class="radios" id="businessSectors">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="businessSectors"
+                        id="default"
+                        title="Seleccione una opción"
+                        class="select_placeholder"
+                        checked
+                      /><!--
+                      <input
+                        type="radio"
+                        name="businessSectors"
+                        id="val1"
+                        title="item1"
+                        value="este es valor"                    
+                      />-->
+                    </summary>
+                    <ul class="list">
+                      <!--       <li>
+                        <label for="val1"> Item 1 </label>
+                      </li>
+                      -->
+                    </ul>
+                  </details>
                 </div>
               </div>
               <!-- Giro Empresa / Tamaño -->
@@ -522,39 +497,24 @@
                     Giro de la empresa <span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Giro 1</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Giro 2</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="giro"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
-
+                  <details class="custom-select">
+                    <summary class="radios" id="businessSubsectors">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="businessSubsectors"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                    </summary>
+                    <ul class="list"></ul>
+                  </details>
                   <!--End: Select Input -->
                 </div>
                 <div class="form_select just_data">
@@ -562,39 +522,24 @@
                     Tamaño de la empresa <span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Grande</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Pequeña</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="pais"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
-
+                  <details class="custom-select">
+                    <summary class="radios" id="companySizes">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="companySizes"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                    </summary>
+                    <ul class="list"></ul>
+                  </details>
                   <!--End: Select Input -->
                 </div>
               </div>
@@ -606,7 +551,7 @@
                   >
                   <!--Begin: Select Input -->
                   <div class="selectbox">
-                    <div class="select" id="select" tabindex="0">
+                    <div class="select countries_code" id="select" tabindex="0">
                       <div class="contenido-select">
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
@@ -643,7 +588,7 @@
                   <!--End: Select Input -->
                 </div>
                 <div class="form-field full-width">
-                  <label class="form_label" for="mobile"
+                  <label class="form_label" for="company_phone"
                     >Teléfono de la empresa (solo números sin espacios)<span
                       class="text-red"
                       >*</span
@@ -653,8 +598,8 @@
                     <input
                       class="form_input required just_numbers"
                       type="text"
-                      id="mobile"
-                      name="mobile"
+                      id="company_phone"
+                      name="company_phone"
                       placeholder="Ej: 5554545454"
                     />
                     <img
@@ -674,12 +619,14 @@
               <!-- Pagina Web -->
               <div class="form_control">
                 <div class="form-field full-width">
-                  <label class="form_label" for="website">Página Web</label>
+                  <label class="form_label" for="website_company"
+                    >Página Web</label
+                  >
                   <div class="form_input_wrapper">
                     <input
                       class="form_input"
                       type="text"
-                      id="website"
+                      id="website_company"
                       name="website"
                       placeholder="URL de Linkedin"
                     />
@@ -703,38 +650,24 @@
                     Cargo <span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Cargo</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Jefe</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Empleado</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="cargo"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
+                  <details class="custom-select">
+                    <summary class="radios" id="positions">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="positions"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                    </summary>
+                    <ul class="list"></ul>
+                  </details>
 
                   <!--End: Select Input -->
                 </div>
@@ -743,38 +676,24 @@
                     Área <span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Mkt</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">It</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="area_empr"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
+                  <details class="custom-select">
+                    <summary class="radios" id="positionAreas">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="positionAreas"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                    </summary>
+                    <ul class="list"></ul>
+                  </details>
 
                   <!--End: Select Input -->
                 </div>
@@ -789,51 +708,36 @@
                     País <span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Argentina</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Brasil</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="pais"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
-
+                  <details class="custom-select">
+                    <summary class="radios" id="countries">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="countries"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                    </summary>
+                    <ul class="list"></ul>
+                  </details>
                   <!--End: Select Input -->
                 </div>
                 <div class="form-field">
-                  <label class="form_label" for="postal_code"
+                  <label class="form_label" for="cp"
                     >Código Postal<span class="text-red">*</span></label
                   >
                   <div class="form_input_wrapper">
                     <input
                       class="form_input required"
                       type="text"
-                      id="postal_code"
-                      name="postal_code"
+                      id="cp"
+                      name="cp"
                       placeholder="Código Postal"
                     />
                     <img
@@ -849,59 +753,98 @@
                   </div>
                 </div>
               </div>
-              <!--  Estado / Colonia -->
+              <!--  Estado /  municipio / Colonia -->
               <div class="form_control">
                 <div class="form_select just_data">
                   <label class="form_label" for="">
                     Estado<span class="text-red">*</span></label
                   >
                   <!--Begin: Select Input -->
-                  <div class="selectbox">
-                    <div class="select just_data" id="select" tabindex="0">
-                      <div class="contenido-select">
-                        <h1 class="titulo">Selecciona una opción</h1>
-                      </div>
-                      <img src="./assets/icons/bxs_up-arrow.png" alt="" />
-                    </div>
-
-                    <div class="opciones" id="opciones">
-                      <a href="#" class="opcion default">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Buenos Aires</h1>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="opcion">
-                        <div class="contenido-opcion">
-                          <div class="textos">
-                            <h1 class="titulo option">Entre Rios</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <input
-                      class="inputSelect required"
-                      type="hidden"
-                      name="state"
-                      id="inputSelect"
-                      value=""
-                    />
-                  </div>
+                  <details class="custom-select">
+                    <summary class="radios" id="states">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="states"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                      <input
+                        type="radio"
+                        name="states"
+                        id="val7"
+                        title="item7"
+                        value="este es valor"
+                      />
+                    </summary>
+                    <ul class="list">
+                      <li>
+                        <label for="val7"> Item 7 </label>
+                      </li>
+                    </ul>
+                  </details>
 
                   <!--End: Select Input -->
                 </div>
-                <div class="form-field">
-                  <label class="form_label" for="colonia"
-                    >Colonia<span class="text-red">*</span></label
+                <!--Hidden  Alcaldía / Municipio (opcional)-->
+                <div class="form_select just_data delegation_noMex">
+                  <label class="form_label" for="">
+                    Alcaldía / Municipio (opcional)
+                    <!--<span class="text-red"></span>--></label
+                  >
+                  <!--Begin: Select Input -->
+                  <details class="custom-select" class="delegations_container  ">
+                    <summary class="radios" id="delegations">
+                      <img
+                        src="./assets/icons/bxs_up-arrow.png"
+                        alt=""
+                        class="arrow_select"
+                      />
+                      <input
+                        type="radio"
+                        name="delegations"
+                        id="default"
+                        class="select_placeholder"
+                        title="Seleccione una opción"
+                        checked
+                      />
+                      <input
+                        type="radio"
+                        name="delegations"
+                        id="val8"
+                        title="item8"
+                        value="este es valor"
+                      />
+                    </summary>
+                    <ul class="list">
+                      <li>
+                        <label for="val8"> Item 7 </label>
+                      </li>
+                    </ul>
+                  </details>
+
+                  <!--End: Select Input -->
+                </div>
+                <!--Hidden-->
+                <!-- Colonias -->       
+                <div class="form-field delegation_mex">
+                  <label class="form_label" for="delegation_name"
+                    >Alcaldía / Municipio 
+                    </label
                   >
                   <div class="form_input_wrapper">
                     <input
-                      class="form_input required"
+                      class="form_input "
                       type="text"
-                      id="colonia"
-                      name="colonia"
-                      placeholder="Colonia"
+                      id="delegation_name"
+                      name="delegation_name"
+                      placeholder="Alcandía / Municipio"
                     />
                     <img
                       src="./assets/icons/icon-ok.svg"
@@ -915,8 +858,27 @@
                     />
                   </div>
                 </div>
+                <div class="form_select just_data colonia_mex">
+                  <label class="form_label" for="">
+                    Colonia <span class="text-red">*</span></label>
+                  <!--Begin: Select Input -->
+                  <details class="custom-select">
+                    <summary class="radios" id="colonies">
+                      <img src="./assets/icons/bxs_up-arrow.png" alt="" class="arrow_select">
+                      <input type="radio" name="colonies" id="default" class="select_placeholder" title="Seleccione una opción" checked="">
+                      <input type="radio" name="colonies" id="val11" title="item11" value="este es valor11">
+                    </summary>
+                    <ul class="list">
+                      <li>
+                        <label for="val11"> Item 11 </label>
+                      </li>
+                    </ul>
+                  </details>
+
+                  <!--End: Select Input -->
+                </div>
               </div>
-              <!--  Estado / Colonia -->
+              <!--  Calle Numero / Colonia -->
               <div class="form_control telefono">
                 <div class="form-field">
                   <label class="form_label" for="street">
@@ -943,15 +905,15 @@
                   </div>
                 </div>
                 <div class="form-field">
-                  <label class="form_label" for="number"
+                  <label class="form_label" for="street_number"
                     >Número<span class="text-red">*</span></label
                   >
                   <div class="form_input_wrapper">
                     <input
                       class="form_input required"
                       type="text"
-                      id="number"
-                      name="number"
+                      id="street_number"
+                      name="street_number"
                       placeholder="Número"
                     />
                     <img
