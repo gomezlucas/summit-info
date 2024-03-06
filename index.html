@@ -73,7 +73,7 @@
 
     <section class="form_section">
       <!--STEP-1------------------------------------------------------------------------------------->
-      <div class="step-1" >
+      <div class="step-1" style="display: none;">
         <div class="container_questions">
           <form id="form_step-1">
             <div class="form_title_wrapper">
@@ -245,7 +245,7 @@
                       id="user_country_code"
                       type="hidden"
                       name="pais"
-                      id="inputSelect"
+                      
                       value=""
                     />
                   </div>
@@ -413,7 +413,7 @@
       </div>
       <!--STEP-1------------------------------------------------------------------------------------->
       <!--STEP-2------------------------------------------------------------------------------------->
-      <div class="step-2" >
+      <div class="step-2" style="display: block;" >
         <div class="container_questions">
           <form action="" id="form_step-2">
             <div class="form_title_wrapper">
@@ -552,13 +552,17 @@
                   <!--Begin: Select Input -->
                   <div class="selectbox">
                     <div class="select countries_code" id="select" tabindex="0">
-                      <div class="contenido-select">
+                      <div class="contenido-select"
+                      id="company_country_code_container"
+
+                      >
                         <h1 class="titulo">Selecciona tu pais</h1>
                       </div>
                       <img src="./assets/icons/bxs_up-arrow.png" alt="" />
                     </div>
 
                     <div class="opciones" id="opciones">
+                      <!--
                       <a href="#" class="opcion default">
                         <div class="contenido-opcion">
                           <img src="./assets/icons/argentina.png" alt="" />
@@ -575,12 +579,13 @@
                           </div>
                         </div>
                       </a>
+                      -->
                     </div>
                     <input
                       class="inputSelect required"
                       type="hidden"
                       name="pais"
-                      id="inputSelect"
+                      id="company_country_code"                     
                       value=""
                     />
                   </div>

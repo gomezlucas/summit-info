@@ -188,11 +188,30 @@ function setDropdownValue(dropdownId, object) {
 
 //Función handle para Mexico CP
 async function handleMexicoCP(e) {
+   const cp = document.getElementById("cp");
+   const label = cp.parentNode.parentNode.querySelector("label");
+
+  const imgError = cp.parentNode.querySelector(".icon_error")
+  const imgOk = cp.parentNode.querySelector(".icon_ok")
+
+  console.log(imgError)
+  imgError.classList.add('active')
+  imgOk.classList.remove('active')
+  cp.classList.add('error')
+  label.classList.add('error')
+
   if (e.target.value.length > 4) {
-    const dataAddress = await getInfoWithCP(BASEURL, e.target.value);    
-    setDropdownValue("states", dataAddress.states);
-    setDropdownValue("delegations", dataAddress.delegations);
-    setDropdownValue("colonies", dataAddress.colonies);
+    const dataAddress = await getInfoWithCP(BASEURL, e.target.value); 
+    console.log(dataAddress)
+    if (dataAddress)  {
+      setDropdownValue("states", dataAddress.states);
+      setDropdownValue("delegations", dataAddress.delegations);
+      setDropdownValue("colonies", dataAddress.colonies);
+      imgError.classList.remove('active')
+      imgOk.classList.add('active')
+      cp.classList.remove('error')
+      label.classList.remove('error')
+    }    
   }
 }
 
@@ -216,7 +235,8 @@ function loadInfoDropdown(arrayInfo, dropdown, nameInput) {
     input.name = nameInput;
     input.id = nameInput + "-" + Object.values(element)[0];
 
-    input.value = Object.values(element)[0];
+    //input.value = Object.values(element)[0];
+    input.value = element.id
 
     if (nameInput == "countries") {
       input.title = element.name;
@@ -342,7 +362,7 @@ async function loadDropdownsStep2() {
       const checkedTitle = checkedRadio.title;
 
       console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
-      const giroEmpresa = await getSubSector(BASEURL, 1);
+      const giroEmpresa = await getSubSector(BASEURL, checkedValue);
       deleteInfoDropdown(dropdownBusinessSubsectors);
       loadInfoDropdown(
         giroEmpresa,
@@ -385,24 +405,22 @@ async function loadDropdownsStep2() {
  
       console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
       const states = await getEstado(BASEURL, checkedValue);
-
       console.log(checkedValue !== "2", "the state", checkedValue);
+   
       if (checkedValue !== "2") {
+        cp.removeEventListener("keyup", handleMexicoCP);
         inputColonyMex.style.display = "none"
         inputDelegationMex.style.display = "flex"
         inputDelegationNoMex.style.display = "none"
         deleteInfoDropdown(dropdownStates);
         loadInfoDropdown(states, dropdownStates, "states");
         optionDropdownEventListener();
-        cp.removeEventListener("keyup", handleMexicoCP);
+
       } else {
         inputColonyMex.style.display = "flex"
         inputDelegationNoMex.style.display = "flex"
         inputDelegationMex.style.display = "none"
-
-
         deleteInfoDropdown(dropdownStates);
-        const cp = document.getElementById("cp");
         cp.addEventListener("keyup", handleMexicoCP);
       }
 

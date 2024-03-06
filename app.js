@@ -1,4 +1,3 @@
-
 const BASEURL = "https://stagingapi.thelogisticsworld.com/v1/events";
 
 const emailNode = `<div class="form-field emails">
@@ -58,11 +57,11 @@ function validarCampos(campos) {
 // Function para Validar Inputs  select
 function validarCamposSelect(campos) {
   let validos = true;
-  console.log(campos)
+  console.log(campos);
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
-    console.log("el valor del campo es ", campo.value)
+    console.log("el valor del campo es ", campo.value);
     const parentNode = campo.parentNode.parentNode;
     const select = parentNode.querySelector(".select");
     const label = parentNode.querySelector(".form_label");
@@ -78,38 +77,39 @@ function validarCamposSelect(campos) {
   return validos;
 }
 
-
-
 function getInvalidRadioGroups() {
   // Obtener todos los radio buttons
-  const step2Div = document.querySelector('.step-2');
+  const step2Div = document.querySelector(".step-2");
   const radioButtons = step2Div.querySelectorAll('input[type="radio"]');
-  
+
   // Almacenar nombres de grupos con error
   const invalidGroupNames = [];
-  
+
   // Crear un objeto para almacenar el estado de los grupos
   const groupCheckedStatus = {};
-  
+
   // Recorrer radio buttons
   for (const radioButton of radioButtons) {
     const groupName = radioButton.name;
 
-    if (radioButton.classList.contains('select_placeholder') && radioButton.checked) {
+    if (
+      radioButton.classList.contains("select_placeholder") &&
+      radioButton.checked
+    ) {
       continue; // Saltar este radio button y pasar al siguiente
     }
-    
+
     // Inicializar el estado del grupo si no existe
     if (!groupCheckedStatus[groupName]) {
       groupCheckedStatus[groupName] = false;
     }
-    
+
     // Actualizar el estado del grupo si el botón está seleccionado
     if (radioButton.checked) {
       groupCheckedStatus[groupName] = true;
     }
   }
-  
+
   // Filtrar los grupos que no tienen ningún botón seleccionado
   for (const groupName in groupCheckedStatus) {
     if (!groupCheckedStatus[groupName]) {
@@ -125,34 +125,32 @@ function addErrorBorderToGroups(groupNames) {
   // Initial checks for troubleshooting:
   if (!groupNames || groupNames.length === 0) {
     console.warn("No group names provided to addErrorBorderToGroups function.");
-    return; 
+    return;
   }
 
   // Optimized element selection:
-  const detailsElements = document.querySelectorAll('.custom-select');
-  const filteredDetails = Array.from(detailsElements)
+  const detailsElements = document.querySelectorAll(".custom-select");
+  const filteredDetails = Array.from(detailsElements);
 
-
-  groupNames.forEach(name => {
-    const node = document.getElementById(name)
-    const label = node.parentNode.parentNode.querySelector(".form_label")
-    node.classList.add("error")
-    label.classList.add("error")
+  groupNames.forEach((name) => {
+    const node = document.getElementById(name);
+    const label = node.parentNode.parentNode.querySelector(".form_label");
+    node.classList.add("error");
+    label.classList.add("error");
   });
-  
-console.log(detailsElements, 'details')
-  return
+
+  console.log(detailsElements, "details");
+  return;
   // Apply "error" class only if elements are found:
   if (filteredDetails.length > 0) {
     console.log("Found elements with matching IDs:", filteredDetails);
-    filteredDetails.forEach(element => element.classList.add("error"));
+    filteredDetails.forEach((element) => element.classList.add("error"));
   } else {
     console.warn("No matching elements found with IDs:", groupNames);
   }
 }
 // Función para mostrar el resultado de la validación de los inputs type text/email
 function showValidationResultInput(campo, valid) {
-  
   const parentNode = campo.parentNode;
   const labelSibling = parentNode.parentNode.querySelector("label");
   const okIcon = parentNode.querySelector(".icon_ok");
@@ -258,8 +256,8 @@ async function getCountries(url) {
 
 //Function para cargar Código País
 function loadCountryCode(countries) {
-   const dropdownCountries = document.querySelectorAll(`.countries_code`);
-   dropdownCountries.forEach((dropdown) => {
+  const dropdownCountries = document.querySelectorAll(`.countries_code`);
+  dropdownCountries.forEach((dropdown) => {
     const container = dropdown.parentNode;
     const opciones = container.querySelector(".opciones");
     countries.forEach((country) => {
@@ -301,29 +299,39 @@ function loadInfoStep1(user, countries) {
     "user_country_code_container"
   );
 
-  email.value = user.email || '';
-  firstname.value = user.firstname || '';
-  lastname.value = user.lastname || '';
-  lastname_mother.value = user.lastname_mother || '';
-  linkedin.value = user.aditional_information && (user.aditional_information.linkedin) || ''
-  phone.value = user.phone || '';
-  if (user && user.aditional_information.whatsapp_preference !== undefined){
-    whatsapp_preference.checked = user.aditional_information.whatsapp_preference
-  }else{
-    whatsapp_preference.checked = true
+  email.value = user.email || "";
+  firstname.value = user.firstname || "";
+  lastname.value = user.lastname || "";
+  lastname_mother.value = user.lastname_mother || "";
+  linkedin.value =
+    (user.aditional_information && user.aditional_information.linkedin) || "";
+  phone.value = user.phone || "";
+  if (
+    user &&
+    user.aditional_information &&
+    user.aditional_information.whatsapp_preference !== undefined
+  ) {
+    whatsapp_preference.checked =
+      user.aditional_information.whatsapp_preference;
+  } else {
+    whatsapp_preference.checked = true;
   }
   //whatsapp_preference.checked = (user.aditional_information &&  user.aditional_information.whatsapp_preference) ? user.aditional_information.whatsapp_preference : true;
-  user_country_code.value = user.international_prefix_id || '';
+  user_country_code.value = user.international_prefix_id || "";
 
- console.log((user.aditional_information &&  user.aditional_information.whatsapp_preference), ' a ver ')
+  console.log(
+    user.aditional_information &&
+      user.aditional_information.whatsapp_preference,
+    " a ver "
+  );
 
   /*check for country code items */
-  if (user && user.international_prefix_id ){
+  if (user && user.international_prefix_id) {
     const country = lookForObject(countries, user.international_prefix_id);
-  /* Load Dropdown Country */
-  const node = document.createElement("div");
-  node.classList.add("contenido-select");
-  node.innerHTML = `
+    /* Load Dropdown Country */
+    const node = document.createElement("div");
+    node.classList.add("contenido-select");
+    node.innerHTML = `
     <div class="contenido-select">
          <div class="contenido-opcion">
           <img src="./assets/icons/mexico.png" alt="">
@@ -333,11 +341,9 @@ function loadInfoStep1(user, countries) {
         </div>
      </div>
 `;
-  country_code_container.innerHTML = "";
-  country_code_container.appendChild(node);
+    country_code_container.innerHTML = "";
+    country_code_container.appendChild(node);
   }
-
-
 }
 // Function para obtener datos cargados en Step1
 function getInputsStep1() {
@@ -356,9 +362,9 @@ function getInputsStep1() {
   const emails = Array.from(emailGuests);
 
   const guests = emails
-  .filter(email=> email.value)
-  .map(email => email.value);
-   
+    .filter((email) => email.value)
+    .map((email) => email.value);
+
   return {
     firstname,
     lastname,
@@ -368,45 +374,161 @@ function getInputsStep1() {
     phone,
     whatsapp_preference,
     linkedin,
-    guests
+    guests,
+    registration_step: 1,
   };
 }
 
-
-function getInputsStep2(){
+// Función para obtener datos cargados en Step2
+function getInputsStep2() {
   const company_name = document.getElementById("company_name").value;
-  const company_phone = document.getElementById("company_phone").value
-  const website = document.getElementById("website_company").value
-  const delegation_name = document.getElementById("delegation_name").value
-  const cp = document.getElementById("cp").value
-  const street = document.getElementById("street").value
-  const street_number = document.getElementById("street_number").value
-  
-  const country_id = document.querySelector('input[type="radio"][name="countries"]:checked').value;
-  const state_id = document.querySelector('input[type="radio"][name="states"]:checked').value;
-  
-  const delegation_id = country_id == '2' ? document.querySelector('input[type="radio"][name="delegations"]:checked').value : '';
-  const colony_id =  country_id == '2'?  document.querySelector('input[type="radio"][name="colonies"]:checked').value : ''
+  const company_phone = document.getElementById("company_phone").value;
+  const website = document.getElementById("website_company").value;
+  const delegation_name = document.getElementById("delegation_name").value;
+  const cp = document.getElementById("cp").value;
+  const street = document.getElementById("street").value;
+  const street_number = document.getElementById("street_number").value;
 
-// TODO SECTOR, GIRO, TAMAÑO, CARGO Y AREA
+  const country_id = document.querySelector(
+    'input[type="radio"][name="countries"]:checked'
+  ).value;
+  const state_id = document.querySelector(
+    'input[type="radio"][name="states"]:checked'
+  ).value;
 
-  const data ={
-    company_name, 
+  const delegation_id =
+    country_id == "2"
+      ? document.querySelector(
+          'input[type="radio"][name="delegations"]:checked'
+        ).value
+      : "";
+  const colony_id =
+    country_id == "2"
+      ? document.querySelector('input[type="radio"][name="colonies"]:checked')
+          .value
+      : "";
+
+  const business_sector_id = document.querySelector(
+    'input[type="radio"][name="businessSectors"]:checked'
+  ).value;
+  const business_subsector_id = document.querySelector(
+    'input[type="radio"][name="businessSubsectors"]:checked'
+  ).value;
+  const company_size_id = document.querySelector(
+    'input[type="radio"][name="companySizes"]:checked'
+  ).value;
+  const company_international_prefix_id = document.getElementById(
+    "company_country_code"
+  ).value;
+  const position_id = document.querySelector(
+    'input[type="radio"][name="positions"]:checked'
+  ).value;
+  const position_area_id = document.querySelector(
+    'input[type="radio"][name="positionAreas"]:checked'
+  ).value;
+
+  const data = {
+    company_name,
     company_phone,
     website,
     delegation_name,
-    cp, 
-    street, 
+    cp,
+    street,
     street_number,
     country_id,
     state_id,
     delegation_id,
-    colony_id
-  }
-  console.log(data)
-  return data
+    colony_id,
+    business_sector_id,
+    business_subsector_id,
+    company_size_id,
+    company_international_prefix_id,
+    position_id,
+    position_area_id,
+    registration_step: 2,
+  };
+  console.log(data);
+  return data;
 }
 
+//Función para cargar datos en Step 2
+function loadInfoStep2(user, countries) {
+  const company_name = document.getElementById("company_name");
+  const company_phone = document.getElementById("company_phone");
+  const website = document.getElementById("website_company");
+  const delegation_name = document.getElementById("delegation_name");
+  const cp = document.getElementById("cp");
+  const street = document.getElementById("street");
+  const street_number = document.getElementById("street_number");
+
+  company_name.value = user ? user.aditional_information.company.name : ''
+  company_phone.value = user ? user.aditional_information.company.phone : ''
+  website.value = user ? user.aditional_information.company.website : ''
+  delegation_name.value = user ? user.aditional_information.company.delegation_name : ''
+
+  const company_size_id = user ? user.aditional_information.company.company_size_id : ''
+  if(company_size_id){
+    const companySizes = document.getElementById("companySizes")
+    const matchingcompanySizes = companySizes.querySelector(`input[type="radio"][value="${company_size_id}"]`).click();
+    console.log(matchingcompanySizes)
+  }
+
+  const position_id = user ? user.aditional_information.position_id : ''
+  console.log(position_id, 'position id')
+  if(position_id){
+    const positions = document.getElementById("positions")
+    const matchingpositions = positions.querySelector(`input[type="radio"][value="${position_id}"]`).click();
+    console.log(matchingpositions, 'the matching')
+  }
+  
+  const position_area_id = user ? user.aditional_information.position_id : ''
+   if(position_area_id){
+    const positionAreas = document.getElementById("positionAreas")
+    const matchingpositionAreas = positionAreas.querySelector(`input[type="radio"][value="${position_id}"]`).click();
+    console.log(matchingpositionAreas, 'the matching')
+  }
+
+  const country_id = user ? user.aditional_information.company.country_id : ''
+   if(country_id){
+    const countries = document.getElementById("countries")
+    const matchingcountries = countries.querySelector(`input[type="radio"][value="${country_id}"]`).click();
+    console.log(matchingcountries, 'the matching')
+    const alcaldia = document.querySelector('.form_select.just_data.delegation_noMex')
+    console.log("alcaldia", alcaldia)
+
+ 
+
+  }
+
+  /*Country Codes*/
+  const company_country_code_container = document.getElementById(
+    "company_country_code_container"
+  );
+  /*check for country code items */
+  if (
+    user &&
+    user.aditional_information &&
+    user.aditional_information.company &&
+    user.aditional_information.company.international_prefix_id
+  ) {
+    const country = lookForObject(countries, user.international_prefix_id);
+    /* Load Dropdown Country */
+    const node = document.createElement("div");
+    node.classList.add("contenido-select");
+    node.innerHTML = `
+    <div class="contenido-select">
+         <div class="contenido-opcion">
+          <img src="./assets/icons/mexico.png" alt="">
+          <div class="textos">
+          <h1 class="titulo option" option_value="${country.id}" }="">${country.dial_code}</h1>
+          </div>
+        </div>
+     </div>
+`;
+    company_country_code_container.innerHTML = "";
+    company_country_code_container.appendChild(node);
+  }
+}
 
 // Función para agregar EventListener a inputs required
 function addEventListenerToInputs(campos) {
@@ -558,7 +680,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const step4Window = document.querySelector(".step-4");
   const camposSteps = document.querySelectorAll(".form_input.required");
   const camposSelect = document.querySelectorAll(".select");
-  const camposEmail = document.querySelectorAll('.form_input.email_invite ')
+  const camposEmail = document.querySelectorAll(".form_input.email_invite ");
   const selectInputStep1 = document.querySelectorAll(".step-1 .select");
 
   /* Time Line Wrapper Car */
@@ -572,9 +694,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   /* Variables Formulario Info User*/
   const { hash } = getHashParams();
-  let user = {}
-  if(hash){
-     user = await fetchAndgetUser(BASEURL, hash);
+  let user = {};
+  if (hash) {
+    user = await fetchAndgetUser(BASEURL, hash);
   }
   console.log("the user is ", user);
 
@@ -582,7 +704,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const countries = await getCountries(BASEURL);
 
   /* Load Info DropDowns */
-  loadCountryCode(countries, '.step-1');
+  loadCountryCode(countries, ".step-1");
 
   /* Select Box, creo los Selects */
   const selects = document.querySelectorAll(".selectbox");
@@ -648,9 +770,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const newData = getInputsStep1();
     // Realizo el post al Endpoint, no funcionando
     try {
-      console.log(BASEURL, hash,newData)
-      const resp = await putUser(BASEURL, hash,newData)
-       step1Window.classList.add("swapping");
+      console.log(BASEURL, hash, newData);
+      const resp = await putUser(BASEURL, hash, newData);
+      step1Window.classList.add("swapping");
       step1Window.addEventListener(
         "animationend",
         () => {
@@ -669,13 +791,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         { once: true }
       );
     } catch (error) {
-        console.log('Error in the submssion of the form', error)
+      console.log("Error in the submssion of the form", error);
     }
- //   console.log(newData, "the new data is");
-    
-  
+    //   console.log(newData, "the new data is");
   });
-  loadDropdownsStep2()
+  await loadDropdownsStep2();
+  loadInfoStep2(user, countries);
 
   submitS2Button.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -689,16 +810,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     );
     const validSelects = validarCamposSelect(camposSelect);
 
-    const groupNames = getInvalidRadioGroups()
-    addErrorBorderToGroups(groupNames)
-  
-    const newData = getInputsStep2()
-    
+    const groupNames = getInvalidRadioGroups();
+    addErrorBorderToGroups(groupNames);
+
+    const newData = getInputsStep2();
+
     if (!validInputs || !validSelects) {
       return;
     }
 
-    return
+    return;
     step2Window.classList.add("swapping");
     step2Window.addEventListener(
       "animationend",
@@ -778,7 +899,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     const otroInputValue = document.getElementById("input_otro_hidden").value;
     // console.log(otroInputValue);
   });
-
-
 });
 /* End After Loading----------------------------------------- */
