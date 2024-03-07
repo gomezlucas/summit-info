@@ -1334,6 +1334,8 @@ details[open] summary:before {
 
 .custom-select summary:focus {
 	outline: none;
+   box-shadow: rgba(13, 110, 253, 0.25) 0px 0px 0px 0.25rem;
+
 }
 
 details[open] summary:after {
