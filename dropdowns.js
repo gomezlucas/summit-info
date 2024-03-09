@@ -1,4 +1,5 @@
 /*document.querySelector('input[name="businessSectors"]:checked') */
+let loadFirstTime = false
 
 // Function para obtener sector de la empresa
 async function getSector(url) {
@@ -178,7 +179,6 @@ async function getInfoWithCP(url, cp) {
 // Function para setear el valor del Dropdown
 function setDropdownValue(dropdownId, object) {
   const dropdownElement = document.getElementById(dropdownId);
-  console.log(dropdownElement, "the drop");
 
   deleteInfoDropdown(dropdownElement);
   loadInfoDropdown(object, dropdownElement, dropdownId);
@@ -187,37 +187,34 @@ function setDropdownValue(dropdownId, object) {
 }
 
 //Función handle para Mexico CP
-async function handleMexicoCP(e) {
-   const cp = document.getElementById("cp");
-   const label = cp.parentNode.parentNode.querySelector("label");
+async function handleMexicoCP(value) {
+  const cp = document.getElementById("cp");
+  const label = cp.parentNode.parentNode.querySelector("label");
 
-  const imgError = cp.parentNode.querySelector(".icon_error")
-  const imgOk = cp.parentNode.querySelector(".icon_ok")
+  const imgError = cp.parentNode.querySelector(".icon_error");
+  const imgOk = cp.parentNode.querySelector(".icon_ok");
 
-  console.log(imgError)
-  imgError.classList.add('active')
-  imgOk.classList.remove('active')
-  cp.classList.add('error')
-  label.classList.add('error')
+  imgError.classList.add("active");
+  imgOk.classList.remove("active");
+  cp.classList.add("error");
+  label.classList.add("error");
 
-  if (e.target.value.length > 4) {
-    const dataAddress = await getInfoWithCP(BASEURL, e.target.value); 
-    console.log(dataAddress)
-    if (dataAddress)  {
+  if (value.length > 4) {
+    const dataAddress = await getInfoWithCP(BASEURL, value);
+    if (dataAddress) {
       setDropdownValue("states", dataAddress.states);
       setDropdownValue("delegations", dataAddress.delegations);
       setDropdownValue("colonies", dataAddress.colonies);
-      imgError.classList.remove('active')
-      imgOk.classList.add('active')
-      cp.classList.remove('error')
-      label.classList.remove('error')
-    }    
+      imgError.classList.remove("active");
+      imgOk.classList.add("active");
+      cp.classList.remove("error");
+      label.classList.remove("error");
+    }
   }
 }
 
 // function para borrar las Opciones del Dropdown
 function deleteInfoDropdown(dropdown) {
-  console.log(dropdown, "a borrar");
   const ul = dropdown.parentNode.querySelector("ul");
   ul.innerHTML = "";
   const inputsToRemove = dropdown.querySelectorAll(
@@ -236,7 +233,7 @@ function loadInfoDropdown(arrayInfo, dropdown, nameInput) {
     input.id = nameInput + "-" + Object.values(element)[0];
 
     //input.value = Object.values(element)[0];
-    input.value = element.id
+    input.value = element.id;
 
     if (nameInput == "countries") {
       input.title = element.name;
@@ -321,7 +318,7 @@ function selectDropdownEventListener() {
   });
 }
 
-async function loadDropdownsStep2() {
+async function loadDropdownsStep2(user) {
   const dropdownBusiness = document.querySelector("#businessSectors");
   const dropdownBusinessSubsectors = document.querySelector(
     "#businessSubsectors"
@@ -331,8 +328,7 @@ async function loadDropdownsStep2() {
   const dropdownPositionsAreas = document.querySelector("#positionAreas");
   const dropdownCountries = document.querySelector("#countries");
   const dropdownStates = document.querySelector("#states");
-  const customSelects = document.querySelectorAll('.custom-select')
-
+  const customSelects = document.querySelectorAll(".custom-select");
 
   const sectores = await getSector(BASEURL);
   loadInfoDropdown(sectores, dropdownBusiness, "businessSectors");
@@ -349,9 +345,6 @@ async function loadDropdownsStep2() {
   const countriesCompany = await getCountriesCompany(BASEURL);
   loadInfoDropdown(countriesCompany, dropdownCountries, "countries");
 
-  
-
- 
   dropdownBusiness.addEventListener("change", async function () {
     // Get the checked radio button
     const checkedRadio = this.querySelector('input[type="radio"]:checked');
@@ -363,16 +356,21 @@ async function loadDropdownsStep2() {
 
       console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
       const giroEmpresa = await getSubSector(BASEURL, checkedValue);
+ 
+      console.log('userrr', user )
       deleteInfoDropdown(dropdownBusinessSubsectors);
       loadInfoDropdown(
         giroEmpresa,
         dropdownBusinessSubsectors,
         "businessSubsectors"
-      );
+      );      
       optionDropdownEventListener();
-
-      // You can perform other actions based on the checked value here,
-      // such as updating the UI, sending data to a server, etc.
+      if (user && user.aditional_information && user.aditional_information.company && user.aditional_information.company.business_subsector_id && !loadFirstTime){
+        const businessSubsectors = document.getElementById("businessSubsectors")
+        const value = user.aditional_information.company.business_subsector_id       
+        businessSubsectors.querySelector(`input[type="radio"][value="${value}"]`).click()
+        loadFirstTime = true
+    }
     }
   });
 
@@ -384,44 +382,59 @@ async function loadDropdownsStep2() {
       const checkedValue = checkedRadio.value;
       const checkedTitle = checkedRadio.title;
       const inputColonyMex = document.querySelector(".colonia_mex");
-      const inputDelegationMex = document.querySelector(".delegation_mex")
-      const inputDelegationNoMex = document.querySelector(".delegation_noMex")
- 
-      //Elimino inputs y dropdowns  cargados 
-      deleteInfoDropdown(document.querySelector('#delegations'))
-      deleteInfoDropdown(document.querySelector('#colonies'))
-      deleteInfoDropdown(document.querySelector('#states'))
-      document.querySelector("#cp").value = ''
-      document.querySelector("#street").value = ''
-      document.querySelector('#street_number').value = ''
-      document.querySelector('#delegation_name').value = ''
+      const inputDelegationMex = document.querySelector(".delegation_mex");
+      const inputDelegationNoMex = document.querySelector(".delegation_noMex");
+
+      //Elimino inputs y dropdowns  cargados
+      deleteInfoDropdown(document.querySelector("#delegations"));
+      deleteInfoDropdown(document.querySelector("#colonies"));
+      deleteInfoDropdown(document.querySelector("#states"));
+      document.querySelector("#cp").value = "";
+      document.querySelector("#street").value = "";
+      document.querySelector("#street_number").value = "";
+      document.querySelector("#delegation_name").value = "";
       // Elimino validaciones
-      const cp = document.querySelector('#cp').parentNode
-      const street = document.querySelector('#street').parentNode
-      const street_number = document.querySelector('#street_number').parentNode
-      cp.querySelector('img').classList.remove('active')
-      street.querySelector('img').classList.remove('active')
-      street_number.querySelector('img').classList.remove('active')
- 
+      const cp = document.querySelector("#cp").parentNode;
+      const street = document.querySelector("#street").parentNode;
+      const street_number = document.querySelector("#street_number").parentNode;
+      cp.querySelector("img").classList.remove("active");
+      street.querySelector("img").classList.remove("active");
+      street_number.querySelector("img").classList.remove("active");
+
       console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
       const states = await getEstado(BASEURL, checkedValue);
-      console.log(checkedValue !== "2", "the state", checkedValue);
-   
-      if (checkedValue !== "2") {
-        cp.removeEventListener("keyup", handleMexicoCP);
-        inputColonyMex.style.display = "none"
-        inputDelegationMex.style.display = "flex"
-        inputDelegationNoMex.style.display = "none"
+
+      if (checkedValue !== "142") {
+        cp.removeEventListener("keyup", (e)=> handleMexicoCP(e.target));
+        inputColonyMex.style.display = "none";
+        inputDelegationMex.style.display = "flex";
+        inputDelegationNoMex.style.display = "none";
         deleteInfoDropdown(dropdownStates);
         loadInfoDropdown(states, dropdownStates, "states");
         optionDropdownEventListener();
-
       } else {
-        inputColonyMex.style.display = "flex"
-        inputDelegationNoMex.style.display = "flex"
-        inputDelegationMex.style.display = "none"
+        console.log("es mexico", user);
+
+        inputColonyMex.style.display = "flex";
+        inputDelegationNoMex.style.display = "flex";
+        inputDelegationMex.style.display = "none";
         deleteInfoDropdown(dropdownStates);
-        cp.addEventListener("keyup", handleMexicoCP);
+       cp.addEventListener("keyup", (e)=>handleMexicoCP(e.target));
+      
+        if (
+          user &&
+          user.aditional_information &&
+          user.aditional_information.company &&
+          user.aditional_information.company.cp
+        ) {
+
+          document.querySelector("#cp").value =  user.aditional_information.company.cp      
+          handleMexicoCP(user.aditional_information.company.cp)
+          const street =  document.getElementById("street")
+          const street_number = document.getElementById("street_number")
+          street.value = user ? user.aditional_information.company.street : ''
+          street_number.value = user ? user.aditional_information.company.street_number : ''
+        }          
       }
 
       // You can perform other actions based on the checked value here,
@@ -429,25 +442,22 @@ async function loadDropdownsStep2() {
     }
   });
 
-  customSelects.forEach(select => {
-    select.addEventListener("change", function(){
-      console.log('ah cambiado')
+  customSelects.forEach((select) => {
+    select.addEventListener("change", function () {
       const radioButtons = select.querySelectorAll('input[type="radio"]');
 
       for (const radioButton of radioButtons) {
         if (radioButton.checked) {
-          radioButton.parentNode.classList.remove("error")
-          const label = radioButton.parentNode.parentNode.parentNode.querySelector(".form_label")
-          console.log(label, 'the parent')
-          label.classList.remove("error")
- 
+          radioButton.parentNode.classList.remove("error");
+          const label =
+            radioButton.parentNode.parentNode.parentNode.querySelector(
+              ".form_label"
+            );
+          label.classList.remove("error");
         }
       }
-      console.log(radioButtons, 'radio')
-    })
+    });
   });
-
-
 
   optionDropdownEventListener();
   selectDropdownEventListener();

@@ -61,7 +61,6 @@ function validarCamposSelect(campos) {
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
-    console.log("el valor del campo es ", campo.value);
     const parentNode = campo.parentNode.parentNode;
     const select = parentNode.querySelector(".select");
     const label = parentNode.querySelector(".form_label");
@@ -139,7 +138,6 @@ function addErrorBorderToGroups(groupNames) {
     label.classList.add("error");
   });
 
-  console.log(detailsElements, "details");
   return;
   // Apply "error" class only if elements are found:
   if (filteredDetails.length > 0) {
@@ -232,10 +230,10 @@ async function putUser(url, hash, data) {
   }
 }
 
-// Function para obtener código país
+// Function para obtener  país
 async function getCountries(url) {
   try {
-    const response = await fetch(`${url}/internationalPrefixes`, {
+    const response = await fetch(`${url}/countries`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -246,13 +244,36 @@ async function getCountries(url) {
     }
     const responseData = await response.json();
     if (responseData) {
-      const countries = responseData.internationalPrefixes;
+      const countries = responseData;
       return countries;
     }
   } catch (error) {
     console.error("Error:", error);
   }
 }
+
+// Function para obtener Código País
+async function getCountriesCode(url) {
+  try {
+    const response = await fetch(`${url}/phoneCodes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    if (responseData) {
+      const countries_code = responseData.phoneCodes;
+      return countries_code;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 
 //Function para cargar Código País
 function loadCountryCode(countries) {
@@ -269,8 +290,8 @@ function loadCountryCode(countries) {
       node.innerHTML = `
        <div class="contenido-opcion">
         <img src="./assets/icons/mexico.png" alt="" />
-        <div class="textos">
-          <h1 class="titulo option" option_value="${country.id}"}>${country.dial_code}</h1>
+          <div class="textos">
+          <h1 class="titulo option" option_value="${country.id}">${country.phone_code}</h1>
         </div>
       </div>
        `;
@@ -282,7 +303,8 @@ function loadCountryCode(countries) {
 // Look for object base on Id
 
 function lookForObject(array, id) {
-  return array.find((object) => object.id === id);
+  console.log('encontroo', array.find((object) => object.id == id))
+  return array.find((object) => object.id == id);
 }
 
 // Función para cargar información Step 1
@@ -317,17 +339,13 @@ function loadInfoStep1(user, countries) {
     whatsapp_preference.checked = true;
   }
   //whatsapp_preference.checked = (user.aditional_information &&  user.aditional_information.whatsapp_preference) ? user.aditional_information.whatsapp_preference : true;
-  user_country_code.value = user.international_prefix_id || "";
+  user_country_code.value = user.phone_code || "";
 
-  console.log(
-    user.aditional_information &&
-      user.aditional_information.whatsapp_preference,
-    " a ver "
-  );
+
 
   /*check for country code items */
-  if (user && user.international_prefix_id) {
-    const country = lookForObject(countries, user.international_prefix_id);
+  if (user && user.phone_code) {
+    const country = lookForObject(countries, user.phone_code);
     /* Load Dropdown Country */
     const node = document.createElement("div");
     node.classList.add("contenido-select");
@@ -336,7 +354,7 @@ function loadInfoStep1(user, countries) {
          <div class="contenido-opcion">
           <img src="./assets/icons/mexico.png" alt="">
           <div class="textos">
-          <h1 class="titulo option" option_value="${country.id}" }="">${country.dial_code}</h1>
+          <h1 class="titulo option" option_value="${country.id}" }="">${country.phone_code}</h1>
           </div>
         </div>
      </div>
@@ -397,13 +415,13 @@ function getInputsStep2() {
   ).value;
 
   const delegation_id =
-    country_id == "2"
+    country_id == "142"
       ? document.querySelector(
           'input[type="radio"][name="delegations"]:checked'
         ).value
       : "";
   const colony_id =
-    country_id == "2"
+    country_id == "142"
       ? document.querySelector('input[type="radio"][name="colonies"]:checked')
           .value
       : "";
@@ -456,49 +474,57 @@ function loadInfoStep2(user, countries) {
   const company_name = document.getElementById("company_name");
   const company_phone = document.getElementById("company_phone");
   const website = document.getElementById("website_company");
+  const street = document.getElementById("street");
   const delegation_name = document.getElementById("delegation_name");
   const cp = document.getElementById("cp");
-  const street = document.getElementById("street");
   const street_number = document.getElementById("street_number");
 
-  company_name.value = user ? user.aditional_information.company.name : ''
-  company_phone.value = user ? user.aditional_information.company.phone : ''
+  console.log(user.aditional_information, 'the aditional info')
+
+  company_name.value = user?.aditional_information?.company?.name || ''
+  company_phone.value = user?user.aditional_information.company.phone : ''
   website.value = user ? user.aditional_information.company.website : ''
   delegation_name.value = user ? user.aditional_information.company.delegation_name : ''
+  street.value = user ? user.aditional_information.company.street : ''
+  street_number.value = user ? user.aditional_information.company.street_number : ''
+  cp.value = user ? user.aditional_information.company.cp : ''  
+
+  const businessSectors_id = user ? user.aditional_information.company.business_subsector.business_sector_id : ''
+
+  if (businessSectors_id){
+    const  businessSectors = document.getElementById("businessSectors")
+    businessSectors.querySelector(`input[type="radio"][value="${businessSectors_id}"]`).click();
+  }
 
   const company_size_id = user ? user.aditional_information.company.company_size_id : ''
   if(company_size_id){
     const companySizes = document.getElementById("companySizes")
-    const matchingcompanySizes = companySizes.querySelector(`input[type="radio"][value="${company_size_id}"]`).click();
-    console.log(matchingcompanySizes)
+    companySizes.querySelector(`input[type="radio"][value="${company_size_id}"]`).click();
+
   }
 
   const position_id = user ? user.aditional_information.position_id : ''
-  console.log(position_id, 'position id')
   if(position_id){
     const positions = document.getElementById("positions")
     const matchingpositions = positions.querySelector(`input[type="radio"][value="${position_id}"]`).click();
-    console.log(matchingpositions, 'the matching')
   }
   
   const position_area_id = user ? user.aditional_information.position_id : ''
    if(position_area_id){
     const positionAreas = document.getElementById("positionAreas")
     const matchingpositionAreas = positionAreas.querySelector(`input[type="radio"][value="${position_id}"]`).click();
-    console.log(matchingpositionAreas, 'the matching')
+    
   }
 
   const country_id = user ? user.aditional_information.company.country_id : ''
    if(country_id){
     const countries = document.getElementById("countries")
     const matchingcountries = countries.querySelector(`input[type="radio"][value="${country_id}"]`).click();
-    console.log(matchingcountries, 'the matching')
-    const alcaldia = document.querySelector('.form_select.just_data.delegation_noMex')
-    console.log("alcaldia", alcaldia)
-
- 
+    
+    const alcaldia = document.querySelector('.form_select.just_data.delegation_noMex')    
 
   }
+  company_country_code.value = user.phone_code || "";
 
   /*Country Codes*/
   const company_country_code_container = document.getElementById(
@@ -509,9 +535,13 @@ function loadInfoStep2(user, countries) {
     user &&
     user.aditional_information &&
     user.aditional_information.company &&
-    user.aditional_information.company.international_prefix_id
+    user.aditional_information.company.phone_code
   ) {
-    const country = lookForObject(countries, user.international_prefix_id);
+    const company_country_code = document.getElementById("company_country_code");
+    company_country_code.value = user.aditional_information.company.phone_code || "";
+    console.log(countries, user.aditional_information.company.phone_code, 'iuijuiasdfoajsdlfkjasdlkfjalsdkjflasd') 
+    const country = lookForObject(countries, user.aditional_information.company.phone_code);
+    
     /* Load Dropdown Country */
     const node = document.createElement("div");
     node.classList.add("contenido-select");
@@ -520,7 +550,7 @@ function loadInfoStep2(user, countries) {
          <div class="contenido-opcion">
           <img src="./assets/icons/mexico.png" alt="">
           <div class="textos">
-          <h1 class="titulo option" option_value="${country.id}" }="">${country.dial_code}</h1>
+          <h1 class="titulo option" option_value="${country.id}" }="">${country.phone_code}</h1>
           </div>
         </div>
      </div>
@@ -698,13 +728,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (hash) {
     user = await fetchAndgetUser(BASEURL, hash);
   }
-  console.log("the user is ", user);
 
   /*GetInfo DropDowns*/
-  const countries = await getCountries(BASEURL);
-
-  /* Load Info DropDowns */
-  loadCountryCode(countries, ".step-1");
+  const countriesCode = await getCountriesCode(BASEURL);
+   /* Load Info DropDowns */
+  loadCountryCode(countriesCode);
 
   /* Select Box, creo los Selects */
   const selects = document.querySelectorAll(".selectbox");
@@ -742,7 +770,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   /* Load Step 1 */ if (user) {
-    loadInfoStep1(user, countries);
+    loadInfoStep1(user, countriesCode);
   }
 
   /* Submision Formulario step 1*/
@@ -768,8 +796,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const newData = getInputsStep1();
-    // Realizo el post al Endpoint, no funcionando
-    try {
+    console.log(newData)
+    return
+     try {
       console.log(BASEURL, hash, newData);
       const resp = await putUser(BASEURL, hash, newData);
       step1Window.classList.add("swapping");
@@ -795,8 +824,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     //   console.log(newData, "the new data is");
   });
-  await loadDropdownsStep2();
-  loadInfoStep2(user, countries);
+  await loadDropdownsStep2(user);
+  loadInfoStep2(user, countriesCode );
 
   submitS2Button.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -840,8 +869,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   submitS3Button.addEventListener("submit", (e) => {
-    console.log("submtio");
-    e.preventDefault();
+     e.preventDefault();
     step3Window.classList.add("swapping");
 
     step3Window.addEventListener(
