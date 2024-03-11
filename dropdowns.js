@@ -355,11 +355,9 @@ async function loadDropdownsStep2(user) {
       // Access the value and title of the checked radio button
       const checkedValue = checkedRadio.value;
       const checkedTitle = checkedRadio.title;
-
-      console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
+      
       const giroEmpresa = await getSubSector(BASEURL, checkedValue);
-
-      console.log("userrr", user);
+      
       deleteInfoDropdown(dropdownBusinessSubsectors);
       loadInfoDropdown(
         giroEmpresa,
@@ -411,21 +409,18 @@ async function loadDropdownsStep2(user) {
       cp.querySelector("img").classList.remove("active");
       street.querySelector("img").classList.remove("active");
       street_number.querySelector("img").classList.remove("active");
-
-      console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
+      
       const states = await getEstado(BASEURL, checkedValue);
 
-      if (checkedValue !== "142") {
-        console.log("deber[ia remover");
-        cp.removeEventListener("keyup", (e) => handleMexicoCP(e.target));
+      if (checkedValue !== "142") {        
+       
         inputColonyMex.style.display = "none";
         inputDelegationMex.style.display = "flex";
         inputDelegationNoMex.style.display = "none";
         deleteInfoDropdown(dropdownStates);
         loadInfoDropdown(states, dropdownStates, "states");
         optionDropdownEventListener();
-        /*Cargo información solo si es first load*/
-        console.log("load firsttime", loadFirstTime);
+        /*Cargo información solo si es first load*/        
         if (!loadFirstTime) {
           document.querySelector("#cp").value =
             user?.aditional_information?.company?.cp || "";
@@ -438,8 +433,7 @@ async function loadDropdownsStep2(user) {
           const state_id =
             user?.aditional_information?.company?.business_subsector
               ?.state_id || "";
-          if (state_id) {
-            console.log(state_id);
+          if (state_id) {            
             const states = document.getElementById("states");
             states
               .querySelector(`input[type="radio"][value="${state_id}"]`)
@@ -447,8 +441,6 @@ async function loadDropdownsStep2(user) {
           }
         }
       } else {
-        console.log("es mexico", user);
-
         inputColonyMex.style.display = "flex";
         inputDelegationNoMex.style.display = "flex";
         inputDelegationMex.style.display = "none";

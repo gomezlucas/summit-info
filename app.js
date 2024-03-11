@@ -126,10 +126,6 @@ function addErrorBorderToGroups(groupNames) {
     return;
   }
 
-  // Optimized element selection:
-  const detailsElements = document.querySelectorAll(".custom-select");
-  const filteredDetails = Array.from(detailsElements);
-
   groupNames.forEach((name) => {
     const node = document.getElementById(name);
     const label = node.parentNode.parentNode.querySelector(".form_label");
@@ -852,7 +848,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     addErrorBorderToGroups(groupNames);
 
     const newData = getInputsStep2();
-    console.log(groupNames, "the gropu namessss");
     if (!validInputs || !validSelects || groupNames.length > 0) {
       return;
     }
