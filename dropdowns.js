@@ -1,5 +1,5 @@
 /*document.querySelector('input[name="businessSectors"]:checked') */
-let loadFirstTime = false
+let loadFirstTime = false;
 
 // Function para obtener sector de la empresa
 async function getSector(url) {
@@ -188,27 +188,29 @@ function setDropdownValue(dropdownId, object) {
 
 //Función handle para Mexico CP
 async function handleMexicoCP(value) {
-  const cp = document.getElementById("cp");
-  const label = cp.parentNode.parentNode.querySelector("label");
+  if (document.querySelector('input[type="radio"][name="countries"]:checked')?.value == "142") {
+     const cp = document.getElementById("cp");
+    const label = cp.parentNode.parentNode.querySelector("label");
 
-  const imgError = cp.parentNode.querySelector(".icon_error");
-  const imgOk = cp.parentNode.querySelector(".icon_ok");
+    const imgError = cp.parentNode.querySelector(".icon_error");
+    const imgOk = cp.parentNode.querySelector(".icon_ok");
 
-  imgError.classList.add("active");
-  imgOk.classList.remove("active");
-  cp.classList.add("error");
-  label.classList.add("error");
+    imgError.classList.add("active");
+    imgOk.classList.remove("active");
+    cp.classList.add("error");
+    label.classList.add("error");
 
-  if (value.length > 4) {
-    const dataAddress = await getInfoWithCP(BASEURL, value);
-    if (dataAddress) {
-      setDropdownValue("states", dataAddress.states);
-      setDropdownValue("delegations", dataAddress.delegations);
-      setDropdownValue("colonies", dataAddress.colonies);
-      imgError.classList.remove("active");
-      imgOk.classList.add("active");
-      cp.classList.remove("error");
-      label.classList.remove("error");
+    if (value.length > 4) {
+      const dataAddress = await getInfoWithCP(BASEURL, value);
+      if (dataAddress) {
+        setDropdownValue("states", dataAddress.states);
+        setDropdownValue("delegations", dataAddress.delegations);
+        setDropdownValue("colonies", dataAddress.colonies);
+        imgError.classList.remove("active");
+        imgOk.classList.add("active");
+        cp.classList.remove("error");
+        label.classList.remove("error");
+      }
     }
   }
 }
@@ -356,21 +358,30 @@ async function loadDropdownsStep2(user) {
 
       console.log(`Selected value: ${checkedValue}, Title: ${checkedTitle}`);
       const giroEmpresa = await getSubSector(BASEURL, checkedValue);
- 
-      console.log('userrr', user )
+
+      console.log("userrr", user);
       deleteInfoDropdown(dropdownBusinessSubsectors);
       loadInfoDropdown(
         giroEmpresa,
         dropdownBusinessSubsectors,
         "businessSubsectors"
-      );      
+      );
       optionDropdownEventListener();
-      if (user && user.aditional_information && user.aditional_information.company && user.aditional_information.company.business_subsector_id && !loadFirstTime){
-        const businessSubsectors = document.getElementById("businessSubsectors")
-        const value = user.aditional_information.company.business_subsector_id       
-        businessSubsectors.querySelector(`input[type="radio"][value="${value}"]`).click()
-        loadFirstTime = true
-    }
+      if (
+        user &&
+        user.aditional_information &&
+        user.aditional_information.company &&
+        user.aditional_information.company.business_subsector_id &&
+        !loadFirstTime
+      ) {
+        const businessSubsectors =
+          document.getElementById("businessSubsectors");
+        const value = user.aditional_information.company.business_subsector_id;
+        businessSubsectors
+          .querySelector(`input[type="radio"][value="${value}"]`)
+          .click();
+        loadFirstTime = true;
+      }
     }
   });
 
@@ -405,13 +416,36 @@ async function loadDropdownsStep2(user) {
       const states = await getEstado(BASEURL, checkedValue);
 
       if (checkedValue !== "142") {
-        cp.removeEventListener("keyup", (e)=> handleMexicoCP(e.target));
+        console.log("deber[ia remover");
+        cp.removeEventListener("keyup", (e) => handleMexicoCP(e.target));
         inputColonyMex.style.display = "none";
         inputDelegationMex.style.display = "flex";
         inputDelegationNoMex.style.display = "none";
         deleteInfoDropdown(dropdownStates);
         loadInfoDropdown(states, dropdownStates, "states");
         optionDropdownEventListener();
+        /*Cargo información solo si es first load*/
+        console.log("load firsttime", loadFirstTime);
+        if (!loadFirstTime) {
+          document.querySelector("#cp").value =
+            user?.aditional_information?.company?.cp || "";
+          document.querySelector("#delegation_name").value =
+            user?.aditional_information?.company?.delegation_name || "";
+          document.querySelector("#street").value =
+            user?.aditional_information?.company?.street || "";
+          document.querySelector("#street_number").value =
+            user?.aditional_information?.company?.street_number || "";
+          const state_id =
+            user?.aditional_information?.company?.business_subsector
+              ?.state_id || "";
+          if (state_id) {
+            console.log(state_id);
+            const states = document.getElementById("states");
+            states
+              .querySelector(`input[type="radio"][value="${state_id}"]`)
+              .click();
+          }
+        }
       } else {
         console.log("es mexico", user);
 
@@ -419,22 +453,25 @@ async function loadDropdownsStep2(user) {
         inputDelegationNoMex.style.display = "flex";
         inputDelegationMex.style.display = "none";
         deleteInfoDropdown(dropdownStates);
-       cp.addEventListener("keyup", (e)=>handleMexicoCP(e.target));
-      
+        cp.addEventListener("keyup", (e) => handleMexicoCP(e.target.value));
+
         if (
           user &&
           user.aditional_information &&
           user.aditional_information.company &&
-          user.aditional_information.company.cp
+          user.aditional_information.company.cp &&
+          !loadFirstTime
         ) {
-
-          document.querySelector("#cp").value =  user.aditional_information.company.cp      
-          handleMexicoCP(user.aditional_information.company.cp)
-          const street =  document.getElementById("street")
-          const street_number = document.getElementById("street_number")
-          street.value = user ? user.aditional_information.company.street : ''
-          street_number.value = user ? user.aditional_information.company.street_number : ''
-        }          
+          document.querySelector("#cp").value =
+            user.aditional_information.company.cp;
+          handleMexicoCP(user.aditional_information.company.cp);
+          const street = document.getElementById("street");
+          const street_number = document.getElementById("street_number");
+          street.value = user ? user.aditional_information.company.street : "";
+          street_number.value = user
+            ? user.aditional_information.company.street_number
+            : "";
+        }
       }
 
       // You can perform other actions based on the checked value here,

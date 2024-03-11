@@ -693,6 +693,13 @@ padding-top: 62px;
    padding-bottom: 23px;
 }
 
+#question3_container{
+   display: none;
+}
+#question3_container.show{
+   display: block;
+}
+
 .form_question_subtitle {
    color: #9B9B9B;
    font-style: italic;

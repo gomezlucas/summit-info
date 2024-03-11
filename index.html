@@ -73,7 +73,7 @@
 
     <section class="form_section">
       <!--STEP-1------------------------------------------------------------------------------------->
-      <div class="step-1" style="display: none;">
+      <div class="step-1" >
         <div class="container_questions">
           <form id="form_step-1">
             <div class="form_title_wrapper">
@@ -413,7 +413,7 @@
       </div>
       <!--STEP-1------------------------------------------------------------------------------------->
       <!--STEP-2------------------------------------------------------------------------------------->
-      <div class="step-2" style="display: block;" >
+      <div class="step-2"  >
         <div class="container_questions">
           <form action="" id="form_step-2">
             <div class="form_title_wrapper">
@@ -790,9 +790,7 @@
                   
                     </summary>
                     <ul class="list">
-                      <li>
-                        <label for="val7"> Item 7 </label>
-                      </li>
+                     
                     </ul>
                   </details>
 
@@ -823,13 +821,9 @@
                       />
                   
                     </summary>
-                    <ul class="list">
-                      <li>
-                        <label for="val8"> Item 7 </label>
-                      </li>
+                    <ul class="list">                  
                     </ul>
                   </details>
-
                   <!--End: Select Input -->
                 </div>
                 <!--Hidden-->
@@ -946,7 +940,7 @@
       </div>
       <!--STEP-2------------------------------------------------------------------------------------->
       <!--STEP-3------------------------------------------------------------------------------------->
-      <div class="step-3">
+      <div class="step-3" >
         <div class="container_questions">
           <form id="form_step-3" id="form_step-3">
             <div class="form_title_wrapper">
@@ -966,9 +960,9 @@
                   >No, está es mi primera vez
                   <input
                     type="radio"
-                    name="firstTime"
+                    name="past_events"
                     checked="checked"
-                    value="no"
+                    value="false"
                     tabindex="-1"
                   />
                   <span class="checkmark"></span>
@@ -977,8 +971,8 @@
                   >Sí, he asistido antes
                   <input
                     type="radio"
-                    name="firstTime"
-                    value="si"
+                    name="past_events"
+                    value="true"
                     tabindex="-1"
                   />
                   <span class="checkmark"></span>
@@ -993,25 +987,17 @@
                   Puedes seleccionar más de una opción
                 </p>
               </div>
-              <div class="form_checkbox_buttons_container">
-                <label class="container-checkbox-q" tabindex="0"
+              <div class="form_checkbox_buttons_container" id="visitPurposes_container">
+                <!--
+                   <label class="container-checkbox-q" tabindex="0"
                   >Proveeduría
                   <input type="checkbox" name="proveduria " tabindex="-1" />
                   <span class="checkmark-q" tabindex="-1"></span>
                 </label>
-
-                <label class="container-checkbox-q" tabindex="0"
-                  >Capacitación
-                  <input type="checkbox" name="proveduria" tabindex="-1" />
-                  <span class="checkmark-q" tabindex="-1"></span>
-                </label>
-                <label class="container-checkbox-q" tabindex="0"
-                  >Networking entre colegas del sector
-                  <input type="checkbox" tabindex="-1" />
-                  <span class="checkmark-q" tabindex="-1"></span>
-                </label>
+                -->
               </div>
               <!--Question 3 -->
+              <div id="question3_container">              
               <div class="form_question3_wrapper">
                 <p class="form_question">
                   ¿Cuáles son las categorías de tu interés?
@@ -1020,13 +1006,10 @@
                   Puedes seleccionar más de una opción
                 </p>
               </div>
-              <div class="form_checkbox_buttons_container-2">
-                <div class="form_checkbox_column">
-                  <label class="container-checkbox-q" tabindex="0"
-                    >Operaciones logísticas
-                    <input type="checkbox" tabindex="-1" />
-                    <span class="checkmark-q" tabindex="-1"></span>
-                  </label>
+              <div class="form_checkbox_buttons_container-2" id="suppliercategories_container">
+                
+                <div class="form_checkbox_column" id="supplier_column1">
+                <!-- 
                   <label class="container-checkbox-q" tabindex="0"
                     >Comercio exterior
                     <input type="checkbox" tabindex="-1" />
@@ -1057,9 +1040,11 @@
                     <input type="checkbox" tabindex="-1" />
                     <span class="checkmark-q"></span>
                   </label>
+                  -->
                 </div>
 
-                <div class="form_checkbox_column">
+                <div class="form_checkbox_column" id="supplier_column2">
+                  <!--
                   <label class="container-checkbox-q" tabindex="0"
                     >Transporte
                     <input type="checkbox" tabindex="-1" />
@@ -1103,16 +1088,18 @@
                       type="text"
                     />
                   </label>
-                </div>
+                  -->
+                </div>              
               </div>
-
+            </div>
               <!-- Question 4-->
               <div class="form_question2_wrapper">
                 <p class="form_question">
                   3. Suscribete a nuestros newsletters
                 </p>
               </div>
-              <div class="form_checkboxCard_buttons_container">
+              <div class="form_checkboxCard_buttons_container" id="newsletter_container">
+                <!--
                 <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
@@ -1141,6 +1128,8 @@
                     </div>
                   </label>
                 </div>
+                -->
+                <!--
                 <div class="form-element" tabindex="0">
                   <input
                     type="checkbox"
@@ -1253,6 +1242,7 @@
                     </div>
                   </label>
                 </div>
+                -->
               </div>
 
               <div class="button_wrapper">
@@ -1418,6 +1408,7 @@
       </p>
     </footer>
     <script src="./dropdowns.js"></script>
+    <script src="./checks.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

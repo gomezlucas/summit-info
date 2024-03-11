@@ -57,7 +57,6 @@ function validarCampos(campos) {
 // Function para Validar Inputs  select
 function validarCamposSelect(campos) {
   let validos = true;
-  console.log(campos);
   for (const campo of campos) {
     // Obtener el valor del campo
     const valor = campo.value.trim();
@@ -139,13 +138,6 @@ function addErrorBorderToGroups(groupNames) {
   });
 
   return;
-  // Apply "error" class only if elements are found:
-  if (filteredDetails.length > 0) {
-    console.log("Found elements with matching IDs:", filteredDetails);
-    filteredDetails.forEach((element) => element.classList.add("error"));
-  } else {
-    console.warn("No matching elements found with IDs:", groupNames);
-  }
 }
 // Función para mostrar el resultado de la validación de los inputs type text/email
 function showValidationResultInput(campo, valid) {
@@ -274,7 +266,6 @@ async function getCountriesCode(url) {
   }
 }
 
-
 //Function para cargar Código País
 function loadCountryCode(countries) {
   const dropdownCountries = document.querySelectorAll(`.countries_code`);
@@ -303,7 +294,6 @@ function loadCountryCode(countries) {
 // Look for object base on Id
 
 function lookForObject(array, id) {
-  console.log('encontroo', array.find((object) => object.id == id))
   return array.find((object) => object.id == id);
 }
 
@@ -341,8 +331,6 @@ function loadInfoStep1(user, countries) {
   //whatsapp_preference.checked = (user.aditional_information &&  user.aditional_information.whatsapp_preference) ? user.aditional_information.whatsapp_preference : true;
   user_country_code.value = user.phone_code || "";
 
-
-
   /*check for country code items */
   if (user && user.phone_code) {
     const country = lookForObject(countries, user.phone_code);
@@ -373,7 +361,7 @@ function getInputsStep1() {
   const whatsapp_preference = document.getElementById(
     "whatsapp_preference"
   ).checked;
-  const international_prefix_id =
+  const phone_code =
     document.getElementById("user_country_code").value;
 
   const emailGuests = document.querySelectorAll(".email_invite");
@@ -388,7 +376,7 @@ function getInputsStep1() {
     lastname,
     event_type_id: 1,
     lastname_mother,
-    international_prefix_id,
+    phone_code,
     phone,
     whatsapp_preference,
     linkedin,
@@ -407,24 +395,30 @@ function getInputsStep2() {
   const street = document.getElementById("street").value;
   const street_number = document.getElementById("street_number").value;
 
-  const country_id = document.querySelector(
-    'input[type="radio"][name="countries"]:checked'
-  ).value;
-  const state_id = document.querySelector(
-    'input[type="radio"][name="states"]:checked'
-  ).value;
+  const country_id =
+    document.querySelector('input[type="radio"][name="countries"]:checked')
+      ?.value || "";
+  const state_id =
+    document.querySelector('input[type="radio"][name="states"]:checked')
+      ?.value || "";
 
   const delegation_id =
     country_id == "142"
       ? document.querySelector(
           'input[type="radio"][name="delegations"]:checked'
-        ).value
+        )?.value
       : "";
-  const colony_id =
-    country_id == "142"
-      ? document.querySelector('input[type="radio"][name="colonies"]:checked')
-          .value
-      : "";
+
+  let colony_id = "";
+  if (
+    country_id == "142" &&
+    document.querySelector('input[type="radio"][name="colonies"]:checked')
+      .value !== "on"
+  ) {
+    colony_id = document.querySelector(
+      'input[type="radio"][name="colonies"]:checked'
+    ).value;
+  }
 
   const business_sector_id = document.querySelector(
     'input[type="radio"][name="businessSectors"]:checked'
@@ -479,50 +473,62 @@ function loadInfoStep2(user, countries) {
   const cp = document.getElementById("cp");
   const street_number = document.getElementById("street_number");
 
-  console.log(user.aditional_information, 'the aditional info')
+  company_name.value = user?.aditional_information?.company?.name || "";
+  company_phone.value = user?.aditional_information?.company?.phone || "";
+  website.value = user?.aditional_information?.company?.website || "";
+  delegation_name.value =
+    user?.aditional_information?.company?.delegation_name || "";
+  street.value = user?.aditional_information?.company?.street || "";
+  street_number.value =
+    user?.aditional_information?.company?.street_number || "";
+  cp.value = user?.aditional_information?.company?.cp || "";
 
-  company_name.value = user?.aditional_information?.company?.name || ''
-  company_phone.value = user?user.aditional_information.company.phone : ''
-  website.value = user ? user.aditional_information.company.website : ''
-  delegation_name.value = user ? user.aditional_information.company.delegation_name : ''
-  street.value = user ? user.aditional_information.company.street : ''
-  street_number.value = user ? user.aditional_information.company.street_number : ''
-  cp.value = user ? user.aditional_information.company.cp : ''  
+  const businessSectors_id =
+    user?.aditional_information?.company?.business_subsector
+      ?.business_sector_id || "";
 
-  const businessSectors_id = user ? user.aditional_information.company.business_subsector.business_sector_id : ''
-
-  if (businessSectors_id){
-    const  businessSectors = document.getElementById("businessSectors")
-    businessSectors.querySelector(`input[type="radio"][value="${businessSectors_id}"]`).click();
+  if (businessSectors_id) {
+    const businessSectors = document.getElementById("businessSectors");
+    businessSectors
+      .querySelector(`input[type="radio"][value="${businessSectors_id}"]`)
+      .click();
   }
 
-  const company_size_id = user ? user.aditional_information.company.company_size_id : ''
-  if(company_size_id){
-    const companySizes = document.getElementById("companySizes")
-    companySizes.querySelector(`input[type="radio"][value="${company_size_id}"]`).click();
-
+  const company_size_id =
+    user?.aditional_information?.company?.company_size_id || "";
+  if (company_size_id) {
+    const companySizes = document.getElementById("companySizes");
+    companySizes
+      .querySelector(`input[type="radio"][value="${company_size_id}"]`)
+      .click();
   }
 
-  const position_id = user ? user.aditional_information.position_id : ''
-  if(position_id){
-    const positions = document.getElementById("positions")
-    const matchingpositions = positions.querySelector(`input[type="radio"][value="${position_id}"]`).click();
-  }
-  
-  const position_area_id = user ? user.aditional_information.position_id : ''
-   if(position_area_id){
-    const positionAreas = document.getElementById("positionAreas")
-    const matchingpositionAreas = positionAreas.querySelector(`input[type="radio"][value="${position_id}"]`).click();
-    
+  const position_id = user?.aditional_information?.position_id || "";
+  if (position_id) {
+    const positions = document.getElementById("positions");
+    const matchingpositions = positions
+      .querySelector(`input[type="radio"][value="${position_id}"]`)
+      .click();
   }
 
-  const country_id = user ? user.aditional_information.company.country_id : ''
-   if(country_id){
-    const countries = document.getElementById("countries")
-    const matchingcountries = countries.querySelector(`input[type="radio"][value="${country_id}"]`).click();
-    
-    const alcaldia = document.querySelector('.form_select.just_data.delegation_noMex')    
+  const position_area_id = user?.aditional_information?.position_id || "";
+  if (position_area_id) {
+    const positionAreas = document.getElementById("positionAreas");
+    const matchingpositionAreas = positionAreas
+      .querySelector(`input[type="radio"][value="${position_id}"]`)
+      .click();
+  }
 
+  const country_id = user?.aditional_information?.company?.country_id || "";
+  if (country_id) {
+    const countries = document.getElementById("countries");
+    const matchingcountries = countries
+      .querySelector(`input[type="radio"][value="${country_id}"]`)
+      .click();
+
+    const alcaldia = document.querySelector(
+      ".form_select.just_data.delegation_noMex"
+    );
   }
   company_country_code.value = user.phone_code || "";
 
@@ -537,11 +543,16 @@ function loadInfoStep2(user, countries) {
     user.aditional_information.company &&
     user.aditional_information.company.phone_code
   ) {
-    const company_country_code = document.getElementById("company_country_code");
-    company_country_code.value = user.aditional_information.company.phone_code || "";
-    console.log(countries, user.aditional_information.company.phone_code, 'iuijuiasdfoajsdlfkjasdlkfjalsdkjflasd') 
-    const country = lookForObject(countries, user.aditional_information.company.phone_code);
-    
+    const company_country_code = document.getElementById(
+      "company_country_code"
+    );
+    company_country_code.value =
+      user.aditional_information.company.phone_code || "";
+    const country = lookForObject(
+      countries,
+      user.aditional_information.company.phone_code
+    );
+
     /* Load Dropdown Country */
     const node = document.createElement("div");
     node.classList.add("contenido-select");
@@ -579,7 +590,7 @@ function addEventListenerToInputs(campos) {
   });
 }
 
-// Function para agregar EventListener a Emails input
+// Function para agregar EventListener a Emails input (guests)
 function addEventListenerGuestEmail(campos) {
   campos.forEach((campo) => {
     campo.addEventListener("keyup", (e) => {
@@ -613,7 +624,7 @@ function addEventListenerToSelectJustData(campos) {
   });
 }
 
-// Para accesibilidad simulo clicks,
+// Para accesibilidad simulo clicks
 const checkboxWrapper = document.querySelector(".checkbox-wsp");
 const containerRadio = document.querySelectorAll(".container-radio");
 const containerCheckbox = document.querySelectorAll(".container-checkbox-q");
@@ -682,13 +693,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       addEventListenerToInputs(newEmails);
     }
   });
-
+  /* Función para que el campo de telefono solo permita nros*/
   const inputNumero = document.querySelectorAll(".just_numbers");
   inputNumero.forEach((input) => {
     input.addEventListener("input", soloNumeros);
   });
 
-  /* Handle Otro Option Question 3*/
+  /* Handle Otro Option Question 3 // también está comentado en Html, 
   let optionOtro = document.getElementById("checkbox_otro");
   let inputOtro = document.getElementById("input_otro_hidden");
   optionOtro.addEventListener("click", (e) => {
@@ -699,7 +710,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       inputOtro.value = "";
     }
   });
-
+*/
   /* Handle Formulario  */
   const submitS1Button = document.getElementById("form_step-1");
   const submitS2Button = document.getElementById("form_step-2");
@@ -731,7 +742,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   /*GetInfo DropDowns*/
   const countriesCode = await getCountriesCode(BASEURL);
-   /* Load Info DropDowns */
+  /* Load Info DropDowns */
   loadCountryCode(countriesCode);
 
   /* Select Box, creo los Selects */
@@ -788,7 +799,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const camposSelect = document.querySelectorAll(
       ".step-1 .inputSelect.required"
     );
-
     const validSelects = validarCamposSelect(camposSelect);
 
     if (!validInputs || !validSelects) {
@@ -796,38 +806,37 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const newData = getInputsStep1();
-    console.log(newData)
-    return
-     try {
+    console.log(newData);
+    try {
       console.log(BASEURL, hash, newData);
       const resp = await putUser(BASEURL, hash, newData);
-      step1Window.classList.add("swapping");
-      step1Window.addEventListener(
-        "animationend",
-        () => {
-          window.scrollTo(0, 0);
-          setTimeout(() => {
-            step1Window.classList.add("hide");
-            step1Window.classList.remove("swapping");
-            step2Window.classList.add("show");
-            carWrapper.classList.add("move_step_2");
-            dosCircle.classList.add("active");
-            unoCheck.style.opacity = 1;
-            //loadDropdownsStep2()
-            //loadInfoStep2()
-          }, 500);
-        },
-        { once: true }
-      );
+      if (resp.status == 200) {
+        step1Window.classList.add("swapping");
+        step1Window.addEventListener(
+          "animationend",
+          () => {
+            window.scrollTo(0, 0);
+            setTimeout(() => {
+              step1Window.classList.add("hide");
+              step1Window.classList.remove("swapping");
+              step2Window.classList.add("show");
+              carWrapper.classList.add("move_step_2");
+              dosCircle.classList.add("active");
+              unoCheck.style.opacity = 1;
+              loadDropdownsStep2(user);
+              loadInfoStep2(user, countriesCode);
+            }, 500);
+          },
+          { once: true }
+        );
+      }
     } catch (error) {
       console.log("Error in the submssion of the form", error);
     }
-    //   console.log(newData, "the new data is");
   });
-  await loadDropdownsStep2(user);
-  loadInfoStep2(user, countriesCode );
 
-  submitS2Button.addEventListener("submit", (e) => {
+ 
+  submitS2Button.addEventListener("submit", async (e) => {
     e.preventDefault();
     /* Validador de Campos */
     const camposStep = document.querySelectorAll(
@@ -843,51 +852,112 @@ document.addEventListener("DOMContentLoaded", async function () {
     addErrorBorderToGroups(groupNames);
 
     const newData = getInputsStep2();
-
-    if (!validInputs || !validSelects) {
+    console.log(groupNames, "the gropu namessss");
+    if (!validInputs || !validSelects || groupNames.length > 0) {
       return;
     }
 
+    try {
+      console.log(BASEURL, hash, newData);
+      const resp = await putUser(BASEURL, hash, newData);
+      // TODO: modificar después de modificar ruta 
+      //if (resp.status == 200){
+      if (200 == 200){
+        step2Window.classList.add("swapping");
+        step2Window.addEventListener(
+          "animationend",
+           () => {
+            window.scrollTo(0, 0);
+            setTimeout(() => {
+              step2Window.classList.add("hide");
+              step2Window.classList.remove("show");
+              step2Window.classList.remove("swapping");
+              step3Window.classList.add("show");
+              carWrapper.classList.add("move_step_3");
+              dosCheck.style.opacity = 1;
+              tresCircle.classList.add("active");
+                loadChecksStep3()                
+            }, 500);
+          },
+          { once: true }
+        );
+      }
+     
+    } catch (error) {}
+
     return;
-    step2Window.classList.add("swapping");
-    step2Window.addEventListener(
-      "animationend",
-      () => {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          step2Window.classList.add("hide");
-          step2Window.classList.remove("show");
-          step2Window.classList.remove("swapping");
-          step3Window.classList.add("show");
-          carWrapper.classList.add("move_step_3");
-          dosCheck.style.opacity = 1;
-          tresCircle.classList.add("active");
-        }, 500);
-      },
-      { once: true }
-    );
   });
 
-  submitS3Button.addEventListener("submit", (e) => {
-     e.preventDefault();
-    step3Window.classList.add("swapping");
+  submitS3Button.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    step3Window.addEventListener(
-      "animationend",
-      () => {
-        window.scrollTo(0, 0);
-        tresCheck.style.opacity = 1;
-        timeLineWrapper.style.opacity = 0;
-        setTimeout(() => {
-          step3Window.classList.add("hide");
-          step3Window.classList.remove("show");
-          step3Window.classList.remove("swapping");
-          step4Window.classList.add("show");
-          timeLineWrapper.style.height = 0;
-        }, 500);
-      },
-      { once: true }
-    );
+    const past_events = document.querySelector(
+      'input[name="past_events"]:checked'
+    ).value;
+
+    const visit_purpose_ids = [];
+    document
+      .querySelectorAll('input[name="visitPurposes"][type="checkbox"]')
+      .forEach(function (checkbox) {
+        if (checkbox.checked) {
+          visit_purpose_ids.push(checkbox.value);
+        }
+      });
+
+    const supplier_category_ids = [];
+    document
+      .querySelectorAll(
+        '.form_checkbox_buttons_container-2 input[name="supplierCategories"][type="checkbox"]'
+      )
+      .forEach(function (checkbox) {
+        if (checkbox.checked) {
+          supplier_category_ids.push(checkbox.value);
+        }
+      });
+    const newsletter_subscriptions_ids = [];
+    document
+      .querySelectorAll(
+        '.form-element input[name="newsletter"][type="checkbox"]'
+      )
+      .forEach(function (checkbox) {
+        if (checkbox.checked) {
+          newsletter_subscriptions_ids.push(checkbox.value);
+        }
+      });
+    const newData = {
+      past_events,
+      visit_purpose_ids,
+      supplier_category_ids,
+      newsletter_subscriptions_ids,
+      event_type_id: 1,
+      registration_step: 3,
+    };
+
+    try {
+      const resp = await putUser(BASEURL, hash, newData);
+      console.log(newData);
+      if (resp) {
+        step3Window.classList.add("swapping");
+        step3Window.addEventListener(
+          "animationend",
+          () => {
+            window.scrollTo(0, 0);
+            tresCheck.style.opacity = 1;
+            timeLineWrapper.style.opacity = 0;
+            setTimeout(() => {
+              step3Window.classList.add("hide");
+              step3Window.classList.remove("show");
+              step3Window.classList.remove("swapping");
+              step4Window.classList.add("show");
+              timeLineWrapper.style.height = 0;
+            }, 500);
+          },
+          { once: true }
+        );
+      }
+    } catch (error) {
+      console.log("Error in the submssion of the form", error);
+    }
   });
 
   /* Handle Input Listener */
@@ -900,31 +970,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   form3.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const firstTimeValue = document.querySelector(
-      'input[name="firstTime"]:checked'
-    ).value;
-    //console.log(firstTimeValue);
-
-    const motivoVisitaValues = [];
-    document
-      .querySelectorAll('input[type="checkbox"]')
-      .forEach(function (checkbox) {
-        if (checkbox.checked) {
-          motivoVisitaValues.push(checkbox.parentNode.textContent.trim());
-        }
-      });
-    const categoriasInteresValues = [];
-    document
-      .querySelectorAll(
-        '.form_checkbox_buttons_container-2 input[type="checkbox"]'
-      )
-      .forEach(function (checkbox) {
-        if (checkbox.checked) {
-          categoriasInteresValues.push(checkbox.parentNode.textContent.trim());
-        }
-      });
-    //console.log(categoriasInteresValues);
-    const otroInputValue = document.getElementById("input_otro_hidden").value;
+    //const otroInputValue = document.getElementById("input_otro_hidden").value;
     // console.log(otroInputValue);
   });
 });
