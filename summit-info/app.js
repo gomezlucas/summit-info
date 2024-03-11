@@ -567,6 +567,16 @@ function loadInfoStep2(user, countries) {
   }
 }
 
+//Función para cargar la Info del Step 4 
+function loadStep4(){
+  const email = document.getElementById("step_4_email")
+  const phone = document.getElementById("step_4_mobile")
+
+ email.textContent = 'emailasdfa'
+ phone.textContent = '0303456'
+
+}
+
 // Función para agregar EventListener a inputs required
 function addEventListenerToInputs(campos) {
   campos.forEach((campo) => {
@@ -945,6 +955,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               step3Window.classList.remove("swapping");
               step4Window.classList.add("show");
               timeLineWrapper.style.height = 0;
+              //loadStep4()
             }, 500);
           },
           { once: true }
